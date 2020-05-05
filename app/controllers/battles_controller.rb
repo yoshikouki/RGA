@@ -1,9 +1,14 @@
+require './app/message_dialog'
+
 class BattlesController
+
+  include MessageDialog
 
   EXP_CONSTANT = 2
   GOLD_CONSTANT = 3
 
-  # 戦闘イベント（交互に攻撃し合う）
+  # 戦闘イベント
+  # 交互に攻撃し合う
   def battle(**params)
     set_character(params)
 
@@ -33,18 +38,9 @@ class BattlesController
     def battle_judgement
       if user_won?
         reward = calculate_battle_reward
-        puts <<~EOS
-        #{@enemy.name}は倒れた。
-        #{@enemy.name}との戦闘に勝利した！
-        Exp #{reward[:exp]}
-        Gold #{reward[:gold]}
-        を獲得した！
-        EOS
+        user_won_message(reward: reward)
       else
-        puts <<~EOS
-        #{@user.name}は倒れた。
-        #{@enemy.name}との戦闘に敗北した...
-        EOS
+        user_lost_message
       end
     end
 

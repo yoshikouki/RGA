@@ -1,4 +1,7 @@
+require './app/message_dialog'
+
 class Character
+  include MessageDialog
   attr_accessor :name, :hp
   attr_reader :str, :vit, :max_hp
 
@@ -43,8 +46,6 @@ class Character
       target.hp -= damage
       target.hp = 0 if target.hp < 0
 
-      puts <<~EOS
-      #{target.name}に #{damage}のダメージ！
-      EOS
+      damage_message(target: target, damage: damage)
     end
 end

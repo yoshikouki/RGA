@@ -11,13 +11,9 @@ class Enemy < Character
   def attack(target)
     transform
 
-    puts "#{@name}の攻撃！"
+    attack_message
     damage = calculate_damage(target: target)
     cause_damage(target: target, damage: damage)
-
-    puts <<~EOS
-    #{target.name} HP: #{target.hp} 
-    EOS
   end
 
   private
@@ -31,9 +27,6 @@ class Enemy < Character
       @str = calculate_special_attack
       @transformed = true
 
-      puts <<~EOS
-      #{init_name}は怒っている
-      #{init_name}は#{@name}に変身した
-      EOS
+      enemy_transform_message({ before_name: init_name, after_name:@name })
     end
 end
