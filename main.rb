@@ -10,4 +10,5 @@ brave = User.new(brave_params)
 slime_params = { name: "スライム", hp: 250, str: 200, vit: 100 }
 slime = Enemy.new(slime_params)
 
-battles_controller.battle(user: brave, enemy: slime)
+matching = { user: brave, enemy: slime }
+battles_controller.battle(matching)
