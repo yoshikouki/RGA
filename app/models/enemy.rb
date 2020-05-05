@@ -2,10 +2,16 @@ require './app/models/character'
 
 class Enemy < Character
   attr_accessor :transformed
+  attr_reader :exp, :gold
+
+  EXP_CONSTANT = 2
+  GOLD_CONSTANT = 3
 
   def initialize(**params)
     super
     @transformed = false
+    @exp = (@str + @vit) * EXP_CONSTANT
+    @gold = (@max_hp) * GOLD_CONSTANT
   end
 
   def attack(target)

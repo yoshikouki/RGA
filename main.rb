@@ -1,7 +1,6 @@
 require './app/models/user'
 require './app/models/enemy'
 
-SPEACIAL_ATTACK_CONSTANT = 1.5
 
 brave_params = { name: "テリー",hp: 500, str: 150, vit: 100 }
 brave = User.new(brave_params)

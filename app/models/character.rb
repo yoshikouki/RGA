@@ -2,6 +2,8 @@ class Character
   attr_accessor :name, :hp
   attr_reader :str, :vit, :max_hp
 
+  SPEACIAL_ATTACK_CONSTANT = 1.5
+
   def initialize(**params)
     @name = params[:name]
     @hp = params[:hp]
