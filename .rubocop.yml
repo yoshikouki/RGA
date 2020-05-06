@@ -1,0 +1,97 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-rails
+  - rubocop-performance
+  - rubocop-rspec
+
+AllCops:
+  Exclude:
+    - "bin/*"
+    - "vendor/**/*"
+    - "db/schema.rb"
+    - "tmp/**/*"
+    - "config/initializers/*"
+    - "db/migrate/*.rb"
+    - !ruby/regexp /old_and_unused\.rb$/
+  DisplayCopNames: true
+  TargetRubyVersion: 2.6.3
+
+Metrics/BlockLength:
+  Exclude:
+    - Guardfile
+    - 'spec/**/*'
+
+# Rails特有の構文チェック
+Rails:
+  Enabled: true
+
+# 日本語のコメントを許可する
+Style/AsciiComments:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 120
+
+# Hashのコード整形はコロンスタイルかつテーブルスタイルで。
+Layout/HashAlignment:
+  EnforcedColonStyle: table
+
+Capybara/FeatureMethods:
+  Enabled: false
+
+RSpec/ContextWording:
+  Enabled: false
+
+# RSpecのModelテストに自クラスを宣言できる
+RSpec/DescribedClass:
+  Enabled: false
+
+RSpec/HookArgument:
+  Exclude:
+    - 'spec/rails_helper.rb'
+
+# #uppdate_attributeを使用することを避ける（Vridationsをスキップするため）
+Rails/SkipsModelValidations:
+  Blacklist:
+    - 'spec/**/*'
+
+# RSpec exampleの行数を5行以上記述できる
+RSpec/ExampleLength:
+  Exclude:
+    - 'spec/system/*'
+
+# System SpecではExpectを複数記載できる
+# Rspec でexpectを2つまで記述できる
+RSpec/MultipleExpectations:
+  Exclude:
+    - 'spec/system/*'
+  Max: 2
+
+# ActionDispatch::Routingのようなclass定義を可能にする
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+
+##################################################
+
+# For rubocop < 1.0.0 or new version
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Style/ExponentialNotation:
+  Enabled: true
