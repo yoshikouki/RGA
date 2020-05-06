@@ -1,2 +1,11 @@
 
 .DS_Store
+/.idea
+
+# 環境変数は無視する
+/.env
+/.env.development
+/.env.test
+/.env.production
+
+/spec/examples.txt
