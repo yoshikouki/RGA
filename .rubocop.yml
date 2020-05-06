@@ -13,6 +13,7 @@ AllCops:
     - "tmp/**/*"
     - "config/initializers/*"
     - "db/migrate/*.rb"
+    - "node_modules/**/*"
     - !ruby/regexp /old_and_unused\.rb$/
   DisplayCopNames: true
   TargetRubyVersion: 2.6.3
