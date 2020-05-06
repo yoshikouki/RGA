@@ -20,6 +20,7 @@ require "sprockets/railtie"
 Bundler.require(*Rails.groups)
 
 module Rga
+  # アプリケーション全体で読み込まれる設定
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0

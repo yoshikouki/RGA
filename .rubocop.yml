@@ -22,6 +22,7 @@ Metrics/BlockLength:
   Exclude:
     - Guardfile
     - 'spec/**/*'
+    - 'config/**/*'
 
 # Rails特有の構文チェック
 Rails:
@@ -30,6 +31,11 @@ Rails:
 # 日本語のコメントを許可する
 Style/AsciiComments:
   Enabled: false
+
+# classの前には説明コメントをつけなくても良い
+Style/Documentation:
+  Exclude:
+    - 'app/controllers/application_controller.rb'
 
 Layout/LineLength:
   Max: 120

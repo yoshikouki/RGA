@@ -1,6 +1,6 @@
+# ホームやライセンスなどの静的なページへのコントローラー
 class PagesController < ApplicationController
   # before_action :sign_in_required, only: [:index]
 
-  def home
-  end
+  def home; end
 end
