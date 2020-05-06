@@ -1,21 +1,26 @@
-require './app/models/character'
+# 主にユーザーコア情報や認証用のデータを持
+# ステータスなどのゲームに関する情報は別モデル？
+class User < ApplicationRecord
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable,
+         :confirmable, :lockable, :timeoutable, :trackable,
+         :omniauthable, omniauth_providers: [:twitter]
 
-class User < Character
-
-  def attack(target)
-    attack_type = decision_attack_type
-    attack_message(attack_type: attack_type)
-
-    damage = calculate_damage(target: target, attack_type: attack_type)
-    cause_damage(target: target, damage: damage)
+  def self.from_omniauth(auth)
+    find_or_create_by(provider: auth['provider'], uid: auth['uid']) do |user|
+      user.provider = auth['provider']
+      user.uid = auth['uid']
+      user.username = auth['info']['nickname']
+    end
   end
 
-    def decision_attack_type
-      attack_num = rand(4)
-      if attack_num == 0
-        :special_attack
-      else
-        :normal_attack
+  def self.new_with_session(params, session)
+    if session['devise.user_attributes']
+      new(session['devise.user_attributes']) do |user|
+        user.attributes = params
       end
+    else
+      super
     end
+  end
 end
