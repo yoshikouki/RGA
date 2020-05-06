@@ -28,6 +28,10 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 # Hamlをテンプレートエンジンに使用
 gem 'haml-rails', '~> 2.0'
+# ユーザー認証にdeviseを使用
+gem 'devise'
+# SNS認証 Twitter
+gem 'omniauth-twitter'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
