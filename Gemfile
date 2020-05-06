@@ -33,6 +33,8 @@ group :development, :test do
 
   # 環境変数を設定
   gem 'dotenv-rails'
+  # テスト環境
+  gem 'rspec-rails', '~> 4.0.0'
 end
 
 group :development do
