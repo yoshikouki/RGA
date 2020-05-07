@@ -1,4 +1,4 @@
-# SNS認証後のコールバックを処理する
+# SNS認証後のコールバック処理する
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def twitter
     @user = User.from_omniauth(request.env['omniauth.auth'].except('extra'))
