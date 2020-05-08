@@ -16,6 +16,25 @@ module Character
     @max_hp = @hp
   end
 
+  def attack(target)
+    attack_type = decision_attack_type
+    damage = calculate_damage(target: target, attack_type: attack_type)
+    cause_damage(target: target, damage: damage)
+
+    # メッセージ
+    attack_message(attack_type: attack_type, damage: damage)
+    "#{@name}の攻撃！ #{damage}のダメージ！！"
+  end
+
+  def decision_attack_type
+    attack_num = rand(4)
+    if attack_num.zero?
+      :special_attack
+    else
+      :normal_attack
+    end
+  end
+
   private
 
   # クリティカル時の攻撃力
