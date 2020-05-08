@@ -1,6 +1,10 @@
-# 主にユーザーコア情報や認証用のデータを持
-# ステータスなどのゲームに関する情報は別モデル？
+require './app/models/character'
+
+# 主にユーザーコア情報や認証用のデータ
 class User < ApplicationRecord
+  include Character
+
+  # ユーザー認証に関する機能を宣言
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable, :lockable, :timeoutable, :trackable,
@@ -23,6 +27,23 @@ class User < ApplicationRecord
       end
     else
       super
+    end
+  end
+
+  def attack(target)
+    attack_type = decision_attack_type
+    attack_message(attack_type: attack_type)
+
+    damage = calculate_damage(target: target, attack_type: attack_type)
+    cause_damage(target: target, damage: damage)
+  end
+
+  def decision_attack_type
+    attack_num = rand(4)
+    if attack_num.zero?
+      :special_attack
+    else
+      :normal_attack
     end
   end
 end
