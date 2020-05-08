@@ -1,0 +1,22 @@
+- bs_c = { icon_sns: "text-white fa-2x mx-4" }
+
+/ Footer
+%footer.my-5
+  .row.justify-content-center.py-5
+    / Twitter
+    = link_to("https://twitter.com/K2_Yoshiko",
+              target: "_blank",
+              class: "tw-ic") do
+      %i.fab.fa-twitter{ class: bs_c[:icon_sns] }
+    / GitHub
+    = link_to("https://github.com/yoshikouki",
+              target: "_blank",
+              class: "github-ic") do
+      %i.fab.fa-github{ class: bs_c[:icon_sns] }
+    / Facebook
+    = link_to("https://www.facebook.com/koki.yoshimoto.9",
+              target: "_blank",
+              class: "fb-ic") do
+      %i.fab.fa-facebook-f{ class: bs_c[:icon_sns] }
+  / Copyright
+  .footer-copyright.text-center.pt-5 © 2020 yoshiko
