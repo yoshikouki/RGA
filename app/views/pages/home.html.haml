@@ -1,3 +1,4 @@
+- bs_c = { battle_button: "btn btn-light btn-block" }
 
 %h1
   %i.fas.fa-dragon
@@ -7,3 +8,6 @@
 %p SUPERな放置ゲームです
 %p もしくはタップゲームかも知れません
 %p ご期待ください！
+
+= link_to battles_path, class: bs_c[:battle_button] do
+  バトルへ

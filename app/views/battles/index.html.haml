@@ -1,3 +1,4 @@
+- bs_c = { home_button: "btn btn-light btn-block my-5" }
 
 %table.table.table-dark
   %thead
@@ -46,3 +47,7 @@
   = @enemy.hp
   %span.small
     = "/#{@enemy.max_hp}"
+
+= link_to root_path, class: bs_c[:home_button] do
+  %i.fas.fa-home
+  Home
