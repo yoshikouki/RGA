@@ -1,11 +1,12 @@
+# メッセージモジュール
 module MessageDialog
   # 攻撃時のログ
   # params[:attack_type]
   def attack_message(**params)
     attack_type = params[:attack_type]
 
-    puts "#{@name}の攻撃"
-    puts "必殺攻撃" if attack_type == :special_attack
+    Rails.logger.debug "#{@name}の攻撃"
+    Rails.logger.debug '必殺攻撃' if attack_type == :special_attack
   end
 
   # 被ダメージのログ
@@ -14,11 +15,11 @@ module MessageDialog
     target = params[:target]
     damage = params[:damage]
 
-    puts <<~EOS
-    #{target.name}に #{damage}のダメージ！
-    #{target.name} HP: #{target.hp}
+    Rails.logger.debug <<~TEXT
+      #{target.name}に #{damage}のダメージ！
+      #{target.name} HP: #{target.hp}
 
-    EOS
+    TEXT
   end
 
   # バトル勝利時
@@ -26,25 +27,25 @@ module MessageDialog
   def user_won_message(**params)
     reward = params[:reward]
 
-    puts <<~EOS
+    Rails.logger.debug <<~TEXT
 
-    #{@enemy.name}は倒れた
-    #{@enemy.name}との戦闘に勝利した！
-    Exp #{reward[:exp]}
-    Gold #{reward[:gold]}
-    を獲得した！
+      #{@enemy.name}は倒れた
+      #{@enemy.name}との戦闘に勝利した！
+      Exp #{reward[:exp]}
+      Gold #{reward[:gold]}
+      を獲得した！
 
-    EOS
+    TEXT
   end
 
   # バトル敗北時
   def user_lost_message
-    puts <<~EOS
+    Rails.logger.debug <<~TEXT
 
-    #{@user.name}は倒れた
-    #{@enemy.name}との戦闘に敗北した...
+      #{@user.name}は倒れた
+      #{@enemy.name}との戦闘に敗北した...
 
-    EOS
+    TEXT
   end
 
   # バトル中、敵が変身する時
@@ -53,10 +54,10 @@ module MessageDialog
     before = params[:before_name]
     after = params[:after_name]
 
-    puts <<~EOS
-    #{before}は怒っている
-    #{before}は#{after}に変身した
+    Rails.logger.debug <<~TEXT
+      #{before}は怒っている
+      #{before}は#{after}に変身した
 
-    EOS
+    TEXT
   end
 end

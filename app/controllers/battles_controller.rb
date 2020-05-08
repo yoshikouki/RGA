@@ -1,3 +1,5 @@
+require './app/message_dialog'
+# Battles Controller
 class BattlesController < ApplicationController
   include MessageDialog
 
@@ -12,6 +14,7 @@ class BattlesController < ApplicationController
     loop do
       @user.attack(@enemy)
       break if battle_end?
+
       @enemy.attack(@user)
       break if battle_end?
     end
@@ -43,13 +46,13 @@ class BattlesController < ApplicationController
 
   # 戦闘結果の判定
   def user_won?
-    @user.hp > 0
+    @user.hp.positive?
   end
 
   # 戦闘報酬の計算
   def calculate_battle_reward
     exp = (@enemy.str + @enemy.vit) * EXP_CONSTANT
-    gold = (@enemy.max_hp) * GOLD_CONSTANT
-    reward = { exp: exp, gold: gold }
+    gold = @enemy.max_hp * GOLD_CONSTANT
+    { exp: exp, gold: gold }
   end
 end
