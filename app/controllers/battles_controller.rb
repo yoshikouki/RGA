@@ -1,4 +1,4 @@
-require './app/message_dialog'
+require './app/controllers/message_dialog'
 # Battles Controller
 class BattlesController < ApplicationController
   include MessageDialog
