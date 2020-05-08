@@ -6,7 +6,7 @@ module Character
   attr_accessor :name, :hp
   attr_reader :str, :vit, :max_hp
 
-  SPEACIAL_ATTACK_CONSTANT = 1.5
+  CRITICAL_ATTACK_CONSTANT = 1.5
 
   def initialize(**params)
     @name = params[:name]
@@ -26,20 +26,16 @@ module Character
     "#{@name}の攻撃！ #{damage}のダメージ！！"
   end
 
+  # 25%の確率でクリティカルになる
   def decision_attack_type
-    attack_num = rand(4)
-    if attack_num.zero?
-      :special_attack
-    else
-      :normal_attack
-    end
+    rand(4).zero? ? :critical_attack : :normal_attack
   end
 
   private
 
   # クリティカル時の攻撃力
-  def calculate_special_attack
-    (@str * SPEACIAL_ATTACK_CONSTANT).round
+  def calculate_critical_attack
+    (@str * CRITICAL_ATTACK_CONSTANT).round
   end
 
   # ダメージ計算
@@ -48,8 +44,8 @@ module Character
     target = params[:target]
     attack_type = params[:attack_type]
 
-    damage = if attack_type == :special_attack
-               calculate_special_attack - target.vit
+    damage = if attack_type == :critical_attack
+               calculate_critical_attack - target.vit
              else
                @str - target.vit
              end

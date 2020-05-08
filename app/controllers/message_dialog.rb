@@ -3,10 +3,10 @@ module MessageDialog
   # 攻撃時のログ
   # params[:attack_type]
   def attack_message(**params)
-    attack_type = params[:attack_type]
+    at = params[:attack_type]
 
     Rails.logger.debug "#{@name}の攻撃"
-    Rails.logger.debug '必殺攻撃' if attack_type == :special_attack
+    Rails.logger.debug '必殺攻撃' if at == :critical_attack
   end
 
   # 被ダメージのログ

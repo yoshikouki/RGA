@@ -7,14 +7,13 @@ class BattlesController < ApplicationController
   GOLD_CONSTANT = 3
 
   def index
-    brave_params = { name: "テリー",hp: 500, str: 200, vit: 100 }
-    enemy_params = { name: "スライム", hp: 600, str: 200, vit: 100 }
+    brave_params = { name: 'テリー', hp: 500, str: 200, vit: 100 }
+    enemy_params = { name: 'スライム', hp: 600, str: 200, vit: 100 }
     @user = User.new(brave_params)
     @enemy = User.new(enemy_params)
 
-    battles_controller = BattlesController.new
     matching = { user: @user, enemy: @enemy }
-    @logs = battles_controller.battle(matching)
+    @logs = battle(matching)
   end
 
   # 戦闘イベント
