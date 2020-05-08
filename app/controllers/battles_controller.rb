@@ -6,20 +6,33 @@ class BattlesController < ApplicationController
   EXP_CONSTANT = 2
   GOLD_CONSTANT = 3
 
+  def index
+    brave_params = { name: "テリー",hp: 500, str: 200, vit: 100 }
+    enemy_params = { name: "スライム", hp: 600, str: 200, vit: 100 }
+    @user = User.new(brave_params)
+    @enemy = User.new(enemy_params)
+
+    battles_controller = BattlesController.new
+    matching = { user: @user, enemy: @enemy }
+    @logs = battles_controller.battle(matching)
+  end
+
   # 戦闘イベント
   # 交互に攻撃し合う
   def battle(**params)
     get_character(params)
 
+    @battle_logs = []
     loop do
-      @user.attack(@enemy)
+      @battle_logs << @user.attack(@enemy)
       break if battle_end?
 
-      @enemy.attack(@user)
+      @battle_logs << @enemy.attack(@user)
       break if battle_end?
     end
 
     battle_judgement
+    @battle_logs
   end
 
   private

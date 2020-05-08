@@ -1,0 +1,48 @@
+
+%table.table.table-dark
+  %thead
+    %tr
+      %th 名前
+      %th HP
+      %th STR
+      %th VIT
+  %tbody
+    %tr
+      %th= @user.name
+      %td= @user.max_hp
+      %td= @user.str
+      %td= @user.vit
+    %tr
+      %th= @enemy.name
+      %td= @enemy.max_hp
+      %td= @enemy.str
+      %td= @enemy.vit
+-# = "#{@enemy.hp} /#{@enemy.max_hp}"
+
+
+- i ||= 1
+- @logs.each do |log|
+  %p
+    %span.badge.badge-light.badge-pill.mr-2
+      = "#{i}"
+    = "#{log}"
+  - i += 1
+
+
+#user-info
+  %span.col-3
+    = @user.name
+  %span.badge.badge-light.ml-3.mr-2
+    = "HP"
+  = @user.hp
+  %span.small
+    = "/#{@user.max_hp}"
+
+#enemy-info
+  %span.col-3
+    = @enemy.name
+  %span.badge.badge-light.ml-3.mr-2
+    = "HP"
+  = @enemy.hp
+  %span.small
+    = "/#{@enemy.max_hp}"
