@@ -1,7 +1,7 @@
 require './app/controllers/message_dialog'
 
 # ゲームに関するUser/ Enemyクラスの共通モジュール
-class Character
+module Character
   include MessageDialog
   attr_accessor :name, :hp
   attr_reader :str, :vit, :max_hp

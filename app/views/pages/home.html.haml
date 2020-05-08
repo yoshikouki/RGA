@@ -6,3 +6,25 @@
 %p SUPERな放置ゲームです
 %p もしくはタップゲームかも知れません
 %p ご期待ください！
+
+%table.table.table-dark
+  %thead
+    %tr
+      %th 名前
+      %th HP
+      %th STR
+      %th VIT
+  %tbody
+    %tr
+      %th= @user.name
+      %td= @user.max_hp
+      %td= @user.str
+      %td= @user.vit
+    %tr
+      %th= @enemy.name
+      %td= @enemy.max_hp
+      %td= @enemy.str
+      %td= @enemy.vit
+-# = "#{@enemy.hp} /#{@enemy.max_hp}"
+
+= @battle
