@@ -10,9 +10,7 @@ module Character
 
   def initialize(**params)
     super(params)
-    params.each do |k, v|
-      instance_variable_set "@#{k.to_s}", v
-    end
+    params.each { |k, v| instance_variable_set "@#{k}", v }
     @current_hp = @hp
   end
 
@@ -23,7 +21,7 @@ module Character
 
     # メッセージ
     attack_message(attack_type: attack_type, damage: damage)
-    "#{@name}の攻撃！ #{damage}のダメージ！！"
+    "#{@name}の攻撃！ #{target.name}に#{damage}のダメージ！！"
   end
 
   # 25%の確率でクリティカルになる

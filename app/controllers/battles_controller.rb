@@ -7,8 +7,8 @@ class BattlesController < ApplicationController
   GOLD_CONSTANT = 3
 
   def index
-    brave_params = { name: 'テリー', hp: 500, str: 200, vit: 100 }
-    enemy_params = { name: 'スライム', hp: 600, str: 200, vit: 100 }
+    brave_params = { name: 'マダオ', hp: 50, str: 200, vit: 10 }
+    enemy_params = { name: 'スライム', hp: 600, str: 20, vit: 100 }
     @player = Player.new(brave_params)
     @enemy = Player.new(enemy_params)
 
