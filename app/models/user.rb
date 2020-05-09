@@ -1,9 +1,5 @@
-require './app/models/character'
-
 # 主にユーザーコア情報や認証用のデータ
 class User < ApplicationRecord
-  include Character
-
   # ユーザー認証に関する機能を宣言
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
@@ -28,9 +24,5 @@ class User < ApplicationRecord
     else
       super
     end
-  end
-
-  def initialize(params)
-    super(params)
   end
 end
