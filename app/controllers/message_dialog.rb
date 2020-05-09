@@ -1,12 +1,12 @@
 # メッセージモジュール
 module MessageDialog
   # 攻撃時のログ
-  # params[:attack_type]
+  # params[:attack_type, :damage]
   def attack_message(**params)
-    at = params[:attack_type]
-
-    Rails.logger.debug "#{@name}の攻撃"
-    Rails.logger.debug '必殺攻撃' if at == :critical_attack
+    log = []
+    log << "#{@name}の攻撃"
+    log << 'クリティカル！' if params[:attack_type] == :critical_attack
+    log
   end
 
   # 被ダメージのログ
@@ -15,11 +15,10 @@ module MessageDialog
     target = params[:target]
     damage = params[:damage]
 
-    Rails.logger.debug <<~TEXT
-      #{target.name}に #{damage}のダメージ！
-      #{target.name} HP: #{target.hp}
-
-    TEXT
+    log = []
+    log << "#{target.name}に #{damage}のダメージ！"
+    log << "残りHP #{target.hp}"
+    log
   end
 
   # バトル勝利時

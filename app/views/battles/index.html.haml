@@ -1,9 +1,9 @@
 - bs_c = { home_button: "btn btn-light btn-block my-5" }
 
-%table.table.table-dark
+%table.table.table-light
   %thead
     %tr
-      %th 名前
+      %th VS
       %th HP
       %th STR
       %th VIT
@@ -21,13 +21,37 @@
 -# = "#{@enemy.hp} /#{@enemy.max_hp}"
 
 
-- i ||= 1
-- @logs.each do |log|
-  %p
-    %span.badge.badge-light.badge-pill.mr-2
-      = "#{i}"
-    = "#{log}"
-  - i += 1
+%table.table.table-dark.table-sm
+  %tbody
+  - @battle_logs[:action].each do |log|
+    %tr
+      %td{ rowspan: 4 }
+        %span.badge.badge-light.badge-pill.mr-2
+          = "#{log[:battle_turn]}"
+    %tr
+      %td
+        = "#{log[:turn_log][:attack_log]}"
+      %td
+        = "#{log[:turn_log][:damage_log]}"
+      - status = log[:turn_log][:status_log]
+    %tr
+      %td
+        = @player.name
+      %td
+        %span.badge.badge-light.ml-3.mr-2
+          = "HP"
+        = status[:player_current_hp]
+        %span.small
+          = "/#{@player.hp}"
+    %tr
+      %td
+        = @enemy.name
+      %td
+        %span.badge.badge-light.ml-3.mr-2
+          = "HP"
+        = status[:enemy_current_hp]
+        %span.small
+          = "/#{@enemy.hp}"
 
 
 #user-info

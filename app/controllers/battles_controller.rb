@@ -7,38 +7,43 @@ class BattlesController < ApplicationController
   GOLD_CONSTANT = 3
 
   def index
-    brave_params = { name: 'マダオ', hp: 50, str: 200, vit: 10 }
-    enemy_params = { name: 'スライム', hp: 600, str: 20, vit: 100 }
-    @player = Player.new(brave_params)
-    @enemy = Player.new(enemy_params)
-
-    matching = { player: @player, enemy: @enemy }
-    @logs = battle(matching)
+    @player = Player.new(name: 'マダオ', hp: 50, str: 200, vit: 10)
+    @enemy = Player.new(name: 'スライム', hp: 600, str: 20, vit: 100)
+    battle(player: @player, enemy: @enemy)
   end
 
   # 戦闘イベント
   # 交互に攻撃し合う
   def battle(**params)
-    get_character(params)
-
-    @battle_logs = []
-    loop do
-      @battle_logs << @player.attack(@enemy)
-      break if battle_end?
-
-      @battle_logs << @enemy.attack(@player)
-      break if battle_end?
-    end
-
+    @battle_logs = {}
+    prepare_battle(params)
+    battle_action(params)
     battle_judgement
     @battle_logs
   end
 
   private
 
-  def get_character(**params)
+  def prepare_battle(**params)
     @player = params[:player]
     @enemy = params[:enemy]
+  end
+
+  def battle_action(_params)
+    logs = []
+    1.step do |i|
+      log = i.odd? ? @player.attack(@enemy) : @enemy.attack(@player)
+      log[:status_log] = { player_current_hp: @player.current_hp,
+                           enemy_current_hp:  @enemy.current_hp }
+      logs << { battle_turn: i,
+                turn_log:    {
+                  attack_log: log[:attack_log].join(' '),
+                  damage_log: log[:damage_log].join(' '),
+                  status_log: log[:status_log]
+                } }
+      break if battle_end?
+    end
+    @battle_logs[:action] = logs
   end
 
   # 戦闘終了フラグ

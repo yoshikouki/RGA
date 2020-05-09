@@ -17,11 +17,15 @@ module Character
   def attack(target)
     attack_type = decision_attack_type
     damage = calculate_damage(target: target, attack_type: attack_type)
-    cause_damage(target: target, damage: damage)
+    damage_log = cause_damage(target: target, damage: damage)
 
     # メッセージ
-    attack_message(attack_type: attack_type, damage: damage)
-    "#{@name}の攻撃！ #{target.name}に#{damage}のダメージ！！"
+    attack_log = attack_message(attack_type: attack_type, damage: damage)
+    status_log = { actor_name: @name,
+                   target_name: target.name,
+                   act_type:   attack_type,
+                   damage:     damage }
+    Hash[attack_log: attack_log, damage_log: damage_log, status_log: status_log]
   end
 
   # 25%の確率でクリティカルになる
