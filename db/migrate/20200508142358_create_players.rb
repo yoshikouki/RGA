@@ -1,12 +1,14 @@
 class CreatePlayers < ActiveRecord::Migration[6.0]
   def change
     create_table :players do |t|
-      t.string :user_id
+      t.bigint :user_id
       t.string :name
-      t.string :lv
-      t.string :hp
-      t.string :str
-      t.string :vit
+      t.bigint :lv
+      t.bigint :exp
+      t.bigint :hp
+      t.bigint :str
+      t.bigint :vit
+      t.bigint :coin
 
       t.timestamps
     end
