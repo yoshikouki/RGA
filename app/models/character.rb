@@ -3,17 +3,17 @@ require './app/controllers/message_dialog'
 # ゲームに関するUser/ Enemyクラスの共通モジュール
 module Character
   include MessageDialog
-  attr_accessor :name, :hp
-  attr_reader :str, :vit, :max_hp
+  attr_accessor :name, :current_hp
+  attr_reader :str, :vit, :hp
 
   CRITICAL_ATTACK_CONSTANT = 1.5
 
   def initialize(**params)
-    @name = params[:name]
-    @hp = params[:hp]
-    @str = params[:str]
-    @vit = params[:vit]
-    @max_hp = @hp
+    super(params)
+    params.each do |k, v|
+      instance_variable_set "@#{k.to_s}", v
+    end
+    @current_hp = @hp
   end
 
   def attack(target)
@@ -59,8 +59,8 @@ module Character
     target = params[:target]
     damage = params[:damage]
 
-    target.hp -= damage
-    target.hp = 0 if target.hp.negative?
+    target.current_hp -= damage
+    target.current_hp = 0 if target.current_hp.negative?
 
     damage_message(target: target, damage: damage)
   end

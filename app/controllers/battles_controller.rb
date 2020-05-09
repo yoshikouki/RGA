@@ -43,7 +43,7 @@ class BattlesController < ApplicationController
 
   # 戦闘終了フラグ
   def battle_end?
-    @player.hp <= 0 || @enemy.hp <= 0
+    @player.current_hp <= 0 || @enemy.current_hp <= 0
   end
 
   # 戦闘結果
@@ -58,13 +58,13 @@ class BattlesController < ApplicationController
 
   # 戦闘結果の判定
   def user_won?
-    @player.hp.positive?
+    @player.current_hp.positive?
   end
 
   # 戦闘報酬の計算
   def calculate_battle_reward
     exp = (@enemy.str + @enemy.vit) * EXP_CONSTANT
-    gold = @enemy.max_hp * GOLD_CONSTANT
+    gold = @enemy.hp * GOLD_CONSTANT
     { exp: exp, gold: gold }
   end
 end

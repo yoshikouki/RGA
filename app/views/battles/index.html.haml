@@ -10,12 +10,12 @@
   %tbody
     %tr
       %th= @player.name
-      %td= @player.max_hp
+      %td= @player.hp
       %td= @player.str
       %td= @player.vit
     %tr
       %th= @enemy.name
-      %td= @enemy.max_hp
+      %td= @enemy.hp
       %td= @enemy.str
       %td= @enemy.vit
 -# = "#{@enemy.hp} /#{@enemy.max_hp}"
@@ -35,18 +35,18 @@
     = @player.name
   %span.badge.badge-light.ml-3.mr-2
     = "HP"
-  = @player.hp
+  = @player.current_hp
   %span.small
-    = "/#{@player.max_hp}"
+    = "/#{@player.hp}"
 
 #enemy-info
   %span.col-3
     = @enemy.name
   %span.badge.badge-light.ml-3.mr-2
     = "HP"
-  = @enemy.hp
+  = @enemy.current_hp
   %span.small
-    = "/#{@enemy.max_hp}"
+    = "/#{@enemy.hp}"
 
 = link_to root_path, class: bs_c[:home_button] do
   %i.fas.fa-home
