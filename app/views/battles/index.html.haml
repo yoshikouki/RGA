@@ -9,10 +9,10 @@
       %th VIT
   %tbody
     %tr
-      %th= @user.name
-      %td= @user.max_hp
-      %td= @user.str
-      %td= @user.vit
+      %th= @player.name
+      %td= @player.max_hp
+      %td= @player.str
+      %td= @player.vit
     %tr
       %th= @enemy.name
       %td= @enemy.max_hp
@@ -32,12 +32,12 @@
 
 #user-info
   %span.col-3
-    = @user.name
+    = @player.name
   %span.badge.badge-light.ml-3.mr-2
     = "HP"
-  = @user.hp
+  = @player.hp
   %span.small
-    = "/#{@user.max_hp}"
+    = "/#{@player.max_hp}"
 
 #enemy-info
   %span.col-3

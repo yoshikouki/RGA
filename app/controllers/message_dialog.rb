@@ -42,7 +42,7 @@ module MessageDialog
   def user_lost_message
     Rails.logger.debug <<~TEXT
 
-      #{@user.name}は倒れた
+      #{@player.name}は倒れた
       #{@enemy.name}との戦闘に敗北した...
 
     TEXT

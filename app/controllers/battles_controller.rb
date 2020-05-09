@@ -9,10 +9,10 @@ class BattlesController < ApplicationController
   def index
     brave_params = { name: 'テリー', hp: 500, str: 200, vit: 100 }
     enemy_params = { name: 'スライム', hp: 600, str: 200, vit: 100 }
-    @user = User.new(brave_params)
-    @enemy = User.new(enemy_params)
+    @player = Player.new(brave_params)
+    @enemy = Player.new(enemy_params)
 
-    matching = { user: @user, enemy: @enemy }
+    matching = { player: @player, enemy: @enemy }
     @logs = battle(matching)
   end
 
@@ -23,10 +23,10 @@ class BattlesController < ApplicationController
 
     @battle_logs = []
     loop do
-      @battle_logs << @user.attack(@enemy)
+      @battle_logs << @player.attack(@enemy)
       break if battle_end?
 
-      @battle_logs << @enemy.attack(@user)
+      @battle_logs << @enemy.attack(@player)
       break if battle_end?
     end
 
@@ -37,13 +37,13 @@ class BattlesController < ApplicationController
   private
 
   def get_character(**params)
-    @user = params[:user]
+    @player = params[:player]
     @enemy = params[:enemy]
   end
 
   # 戦闘終了フラグ
   def battle_end?
-    @user.hp <= 0 || @enemy.hp <= 0
+    @player.hp <= 0 || @enemy.hp <= 0
   end
 
   # 戦闘結果
@@ -58,7 +58,7 @@ class BattlesController < ApplicationController
 
   # 戦闘結果の判定
   def user_won?
-    @user.hp.positive?
+    @player.hp.positive?
   end
 
   # 戦闘報酬の計算
