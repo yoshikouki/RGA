@@ -40,19 +40,20 @@ module Character
   # params[:target, :attack_type]
   def calculate_damage(**params)
     target = params[:target]
-
-    damage = if params[:critical_hit] == true
-               calculate_critical_attack - target.vit
-             else
-               @str - target.vit
-             end
-
+    critical_hit = params[:critical_hit]
+    atk = critical_hit ? calculate_critical_attack : @str
+    damage = damage_range(atk) - target.vit
     damage.positive? ? damage : 0
   end
 
   # クリティカル時の攻撃力
   def calculate_critical_attack
     (@str * CRITICAL_ATTACK_CONSTANT).round
+  end
+
+  # ダメージの振れ幅を計算する
+  def damage_range(atk)
+    (atk * rand(0.85...1.1)).round
   end
 
   # ダメージ値によってHPを処理
