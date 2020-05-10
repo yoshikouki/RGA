@@ -1,0 +1,130 @@
+- bs_c = { situation_table: "table table-dark table-sm my-5",
+           action_ul: "list-group list-group-flush",
+           act_li: "list-group-item bg-dark border-secondary",
+           turn_badge: "badge badge-secondary mr-2",
+           actor_name: "h5 font-weight-bold",
+           critical_hit: "badge badge-danger badge-pill align-middle",
+           damage_num: "text-danger font-weight-bold",
+           current_target_hp: "small",
+           situation_of_turn: "row mt-3",
+           current_player_hp: "col",
+           current_enemy_hp: "col",
+           max_hp: "small",
+           result_message: "alert alert-light",
+           user_won: "text-danger font-weight-bold",
+           get_exp: "font-weight-bold",
+           get_coin: "font-weight-bold",
+           user_lose: "font-weight-bold",
+           home_button: "btn btn-light btn-block my-5" }
+- player = @battle_logs[:battle_info][:player_info]
+- enemy = @battle_logs[:battle_info][:enemy_info]
+- action_logs = @battle_logs[:action_logs]
+- battle_result = @battle_logs[:battle_result]
+
+-# 戦闘開始状況
+%table{ class: bs_c[:situation_table] }
+  %thead
+    %tr
+      %th VS
+      %th HP
+      %th STR
+      %th VIT
+  %tbody
+    %tr
+      %th= player[:name]
+      %td= player[:hp]
+      %td= player[:str]
+      %td= player[:vit]
+    %tr
+      %th= enemy[:name]
+      %td= enemy[:hp]
+      %td= enemy[:str]
+      %td= enemy[:vit]
+
+
+-# 戦闘経過ログ
+%ul{ class: bs_c[:action_ul] }
+  - action_logs.each do |log|
+    %li{ class: bs_c[:act_li] }
+      .div
+        -#%span{ class: bs_c[:turn_badge] }
+        -#  = log[:act_turn]
+        %span{ class: bs_c[:actor_name] }
+          = log[:actor_name]
+        = "の攻撃！" if log[:act_type] == :normal_attack
+        %span{ class: bs_c[:critical_hit] }= "Critical!" if log[:critical_hit] == true
+      .div
+        = "#{log[:target_name]}に"
+        %span{ class: bs_c[:damage_num] }
+          = log[:damage]
+        のダメージ
+      .situation-of-turn{ class: bs_c[:situation_of_turn] }
+        - player_current_hp, enemy_current_hp = ""
+        - if log[:target_name] == player[:name]
+          - player_current_hp = bs_c[:damage_num]
+        - else
+          - enemy_current_hp = bs_c[:damage_num]
+        %span{ class: bs_c[:current_player_hp] }
+          = "#{player[:name]}"
+          %span{ class: player_current_hp }
+            = log[:current_player_hp]
+          %span{ class: bs_c[:max_hp] }
+            = "/#{player[:hp]}"
+        %span{ class: bs_c[:current_player_hp] }
+          = "#{enemy[:name]}"
+          %span{ class: enemy_current_hp }
+            = log[:current_enemy_hp]
+          %span{ class: bs_c[:max_hp] }
+            = "/#{enemy[:hp]}"
+  %li{ class: bs_c[:act_li] }
+    = "#{battle_result[:loser_name]}は倒れた"
+
+
+-# 戦闘結果
+%table{ class: bs_c[:situation_table] }
+  %thead
+    %tr
+      %th VS
+      %th HP
+      %th STR
+      %th VIT
+  %tbody
+    %tr
+      %th= player[:name]
+      %td
+        = "#{battle_result[:last_player_hp]}"
+        %span{ class: bs_c[:max_hp] }
+          = "/#{player[:hp]}"
+      %td= player[:str]
+      %td= player[:vit]
+    %tr
+      %th= enemy[:name]
+      %td
+        = "#{battle_result[:last_enemy_hp]}"
+        %span{ class: bs_c[:max_hp] }
+          = "/#{enemy[:hp]}"
+      %td= enemy[:str]
+      %td= enemy[:vit]
+
+#result-message{ class: bs_c[:result_message] }
+  - if battle_result[:player_won]
+    .div
+      = "#{battle_result[:winner_name]}は"
+      %span{ class: bs_c[:user_won] } 戦闘に勝利した！
+    .div
+      EXP :
+      %span{ class: bs_c[:get_exp] }
+        = battle_result[:get_exp]
+    .div
+      COIN :
+      %span{ class: bs_c[:get_coin] }
+        = battle_result[:get_coin]
+  -else
+    .div{ class: bs_c[:user_lose] }
+      = "戦闘に敗北した..."
+
+
+-# ホームへのリンク
+= link_to root_path, class: bs_c[:home_button] do
+  %i.fas.fa-home
+  Home

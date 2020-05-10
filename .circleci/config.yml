@@ -1,0 +1,146 @@
+# CircleCI 2.1 を使用
+version: 2.1
+# 公開されているCircleCI設定を読み込む。version: 2.1以上
+orbs:
+  ruby-orbs: sue445/ruby-orbs@1.6.0
+  heroku: circleci/heroku@1.0.1
+
+# CI/CD工程の全体像
+workflows:
+  build_test_and_deploy:
+    jobs:
+      - build
+      - rubocop_job:
+          requires:
+            - build
+      - rspec_job:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - rubocop_job
+            - rspec_job
+          # masterブランチのみで作動させる
+          filters:
+            branches:
+              only:
+                - master
+
+# 実行環境
+executors:
+  default:
+    # コマンドを実行するディレクトリ（リポジトリ）を指定
+    working_directory: ~/rga
+    docker:
+      - image: circleci/ruby:2.6.3-stretch-node-browsers
+        environment:
+          # 元が BUNDLE_PATH=/usr/local/bundle で設定されているので、上書きする
+          BUNDLE_PATH: vendor/bundle
+          RAILS_ENV: test
+          NODE_ENV: test
+  extended:
+    working_directory: ~/rga
+    docker:
+      - image: circleci/ruby:2.6.3-stretch-node-browsers
+        environment:
+          BUNDLE_PATH: vendor/bundle
+          PGHOST: 127.0.0.1
+          # config/database.ymlの内容と一致させる
+          PGUSER: postgres
+          RAILS_ENV: test
+          NODE_ENV: test
+      # $ psql -V で確認したバージョンと合わせる。-alpineが軽量版のため望ましい
+      - image: circleci/postgres:12-alpine
+        environment:
+          # config/database.ymlの内容と一致させる
+          POSTGRES_USER: postgres
+          POSTGRES_DB: rga_test
+
+# 各工程の定義
+jobs:
+  build:
+    executor: default
+    steps:
+      # ソースコードを作業ディレクトリにチェックアウトする特別なステップ
+      - checkout
+      # 依存関係とバンドルの処理
+      - bundle-install
+      - yarn_install
+  rubocop_job:
+    executor: default
+    steps:
+      - preparate
+      # コード解析を実行
+      - run:
+          name: 静的コード解析を実行（RuboCop）
+          command: bundle exec rubocop
+  rspec_job:
+    executor: extended
+    steps:
+      - preparate
+      # DBの起動まで待機
+      - run:
+          name: DBの起動まで待機
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      # DBをセットアップ
+      - run:
+          name: DBをセットアップ
+          command: bin/rails db:schema:load --trace
+      # テストを実行
+      - run:
+          name: テストを実行（RSpec）
+          command: |
+            mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
+              circleci tests split --split-by=timings)"
+            bundle exec rspec --profile 10 \
+                              --out test_results/rspec.xml \
+                              --format progress \
+                              $TEST_FILES
+      # テスト結果を保存(タイミング解析)
+      # テストサマリー(https://circleci.com/docs/ja/2.0/collect-test-data/)
+      # デプロイコンフィグの例(https://circleci.com/docs/ja/2.0/deployment-integrations/)
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+  deploy:
+    executor: heroku/default
+    steps:
+      - checkout
+      - heroku/install
+      - heroku/deploy-via-git
+
+# 処理など。version: 2.1以上
+commands:
+  # Orbsを利用した依存関係の処理
+  bundle-install:
+    steps:
+      - ruby-orbs/bundle-install:
+          bundle_clean: true
+          bundle_extra_args: ''
+          bundle_gemfile: Gemfile
+          bundle_jobs: 4
+          bundle_path: vendor/bundle
+          bundle_retry: 3
+          cache_key_prefix: v1-bundle-dependencies
+          restore_bundled_with: true
+  yarn_install:
+    steps:
+      - restore_cache:
+          keys:
+            - yarn-cache-v1-{{ checksum "yarn.lock" }}
+            - yarn-cache-v1-
+      - run: yarn install --cache-folder ~/.cache/yarn
+      - run: bundle exec rake webpacker:compile
+      - save_cache:
+          key: yarn-cache-v1-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+  # 各jobの準備工程
+  preparate:
+    steps:
+      - checkout
+      - bundle-install
+      - yarn_install

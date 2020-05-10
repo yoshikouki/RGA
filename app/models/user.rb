@@ -1,6 +1,6 @@
-# 主にユーザーコア情報や認証用のデータを持
-# ステータスなどのゲームに関する情報は別モデル？
+# 主にユーザーコア情報や認証用のデータ
 class User < ApplicationRecord
+  # ユーザー認証に関する機能を宣言
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable, :lockable, :timeoutable, :trackable,
