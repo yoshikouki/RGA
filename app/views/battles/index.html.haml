@@ -1,6 +1,11 @@
 - bs_c = { home_button: "btn btn-light btn-block my-5" }
+- player = @battle_logs[:battle_info][:player_info]
+- enemy = @battle_logs[:battle_info][:enemy_info]
+- action_logs = @battle_logs[:action_logs]
+- battle_result = @battle_logs[:battle_result]
 
-%table.table.table-light
+-# 戦闘開始状況
+%table.table.table-light.table-sm
   %thead
     %tr
       %th VS
@@ -9,69 +14,71 @@
       %th VIT
   %tbody
     %tr
-      %th= @player.name
-      %td= @player.hp
-      %td= @player.str
-      %td= @player.vit
+      %th= player[:name]
+      %td= player[:hp]
+      %td= player[:str]
+      %td= player[:vit]
     %tr
-      %th= @enemy.name
-      %td= @enemy.hp
-      %td= @enemy.str
-      %td= @enemy.vit
--# = "#{@enemy.hp} /#{@enemy.max_hp}"
+      %th= enemy[:name]
+      %td= enemy[:hp]
+      %td= enemy[:str]
+      %td= enemy[:vit]
 
 
-%table.table.table-dark.table-sm
-  %tbody
-  - @battle_logs[:action].each do |log|
-    %tr
-      %td{ rowspan: 4 }
+-# 戦闘経過ログ
+%ul.list-group
+  - action_logs.each do |log|
+    %li
+      .div
         %span.badge.badge-light.badge-pill.mr-2
-          = "#{log[:battle_turn]}"
+          = log[:act_turn]
+        = log[:actor_name]
+        = "の攻撃！" if log[:act_type] == :normal_attack
+        = "クリティカル！！" if log[:critical_hit] == true
+      .div
+        = "#{log[:target_name]}に#{log[:damage]}のダメージ"
+        = "残HP #{log[:current_target_hp]}"
+      .div
+        = "#{player[:name]} #{log[:current_player_hp]} /#{player[:hp]}"
+        = "#{enemy[:name]} #{log[:current_enemy_hp]} /#{enemy[:hp]}"
+  %li
+    = "#{battle_result[:loser_name]}は倒れた"
+
+
+-# 戦闘結果
+%table.table.table-light.table-sm
+  %thead
     %tr
-      %td
-        = "#{log[:turn_log][:attack_log]}"
-      %td
-        = "#{log[:turn_log][:damage_log]}"
-      - status = log[:turn_log][:status_log]
+      %th VS
+      %th HP
+      %th STR
+      %th VIT
+  %tbody
     %tr
+      %th= player[:name]
       %td
-        = @player.name
-      %td
-        %span.badge.badge-light.ml-3.mr-2
-          = "HP"
-        = status[:player_current_hp]
-        %span.small
-          = "/#{@player.hp}"
+        = "#{battle_result[:last_player_hp]} /#{player[:hp]}"
+      %td= player[:str]
+      %td= player[:vit]
     %tr
+      %th= enemy[:name]
       %td
-        = @enemy.name
-      %td
-        %span.badge.badge-light.ml-3.mr-2
-          = "HP"
-        = status[:enemy_current_hp]
-        %span.small
-          = "/#{@enemy.hp}"
+        = "#{battle_result[:last_enemy_hp]} /#{enemy[:hp]}"
+      %td= enemy[:str]
+      %td= enemy[:vit]
+
+.alert.alert-light
+  - if battle_result[:player_won]
+    .div
+      = "#{battle_result[:winner_name]}は戦闘に勝利した！"
+    .div= "EXP : #{battle_result[:get_exp]}"
+    .div= "COIN : #{battle_result[:get_coin]}"
+  -else
+    .div
+      = "戦闘に敗北した..."
 
 
-#user-info
-  %span.col-3
-    = @player.name
-  %span.badge.badge-light.ml-3.mr-2
-    = "HP"
-  = @player.current_hp
-  %span.small
-    = "/#{@player.hp}"
-
-#enemy-info
-  %span.col-3
-    = @enemy.name
-  %span.badge.badge-light.ml-3.mr-2
-    = "HP"
-  = @enemy.current_hp
-  %span.small
-    = "/#{@enemy.hp}"
-
+-# ホームへのリンク
 = link_to root_path, class: bs_c[:home_button] do
   %i.fas.fa-home
   Home
