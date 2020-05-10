@@ -1,6 +1,5 @@
 # Battles Controller
 class BattlesController < ApplicationController
-
   EXP_CONSTANT = 2
   COIN_CONSTANT = 3
 
@@ -28,12 +27,10 @@ class BattlesController < ApplicationController
     params.each { |k, v| instance_variable_set "@#{k}", v }
     # 戻り値 :battle_info
     { player_info:    { name: @player.name,
-                        lv:   @player.lv,
                         hp:   @player.hp,
                         str:  @player.str,
                         vit:  @player.vit },
       enemy_info:     { name: @enemy.name,
-                        lv:   @enemy.lv,
                         hp:   @enemy.hp,
                         str:  @enemy.str,
                         vit:  @enemy.vit },
@@ -60,32 +57,38 @@ class BattlesController < ApplicationController
 
   # 戦闘結果
   def battle_judgement
-    h = if user_won?
-          reward = calculate_battle_reward
-          { player_won:  true,
-            winner_name: @player.name,
-            loser_name:  @enemy.name,
-            get_exp:     reward[:get_exp],
-            get_coin:    reward[:get_coin] }
-        else
-          { player_won:  false,
-            winner_name: @enemy.name,
-            loser_name:  @player.name }
-        end
-    { last_player_hp: @player.current_hp,
+    player_won = player_won?
+    names = result_name_list(player_won)
+    reward = calculate_battle_reward(player_won)
+    { player_won:     player_won,
+      last_player_hp: @player.current_hp,
       last_enemy_hp:  @enemy.current_hp }
-      .merge(h)
+      .merge(names, reward)
   end
 
   # 戦闘結果の判定
-  def user_won?
+  def player_won?
     @player.current_hp.positive?
   end
 
+  # 勝者と敗者の名前を変数定義
+  def result_name_list(player_won)
+    if player_won
+      { winner_name: @player.name,
+        loser_name:  @enemy.name }
+    else
+      { winner_name: @enemy.name,
+        loser_name:  @player.name }
+    end
+  end
+
   # 戦闘報酬の計算
-  def calculate_battle_reward
-    exp = (@enemy.str + @enemy.vit) * EXP_CONSTANT
-    coin = @enemy.hp * COIN_CONSTANT
+  def calculate_battle_reward(player_won)
+    exp, coin = 0
+    if player_won
+      exp = (@enemy.str + @enemy.vit) * EXP_CONSTANT
+      coin = @enemy.hp * COIN_CONSTANT
+    end
     { get_exp:  exp,
       get_coin: coin }
   end
