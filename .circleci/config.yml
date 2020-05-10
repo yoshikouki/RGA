@@ -59,11 +59,11 @@ jobs:
   build:
     executor: default
     steps:
+      - run: NODE_ENV=test bundle exec rails webpacker:compile
       # ソースコードを作業ディレクトリにチェックアウトする特別なステップ
       - checkout
       # 依存関係とバンドルの処理
       - bundle-install
-      - run: NODE_ENV=test bundle exec rails webpacker:compile
   rubocop_job:
     executor: default
     steps:
