@@ -15,44 +15,44 @@ module Character
   end
 
   def attack(target)
-    attack_type = decision_attack_type
-    damage = calculate_damage(target: target, attack_type: attack_type)
-    damage_log = cause_damage(target: target, damage: damage)
+    critical_hit = critical_hit?
+    attack_type = :normal_attack
+    damage = calculate_damage(target: target, critical_hit: critical_hit)
+    cause_damage(target: target, damage: damage)
 
-    # メッセージ
-    attack_log = attack_message(attack_type: attack_type, damage: damage)
-    status_log = { actor_name: @name,
-                   target_name: target.name,
-                   act_type:   attack_type,
-                   damage:     damage }
-    Hash[attack_log: attack_log, damage_log: damage_log, status_log: status_log]
+    #  戻り値 :action_logs配列アイテムの一部
+    { actor_name:        @name,
+      target_name:       target.name,
+      act_type:          attack_type,
+      critical_hit:      critical_hit,
+      damage:            damage,
+      current_target_hp: target.current_hp }
   end
 
   # 25%の確率でクリティカルになる
-  def decision_attack_type
-    rand(4).zero? ? :critical_attack : :normal_attack
+  def critical_hit?
+    rand(4).zero?
   end
 
   private
-
-  # クリティカル時の攻撃力
-  def calculate_critical_attack
-    (@str * CRITICAL_ATTACK_CONSTANT).round
-  end
 
   # ダメージ計算
   # params[:target, :attack_type]
   def calculate_damage(**params)
     target = params[:target]
-    attack_type = params[:attack_type]
 
-    damage = if attack_type == :critical_attack
+    damage = if params[:critical_hit] == true
                calculate_critical_attack - target.vit
              else
                @str - target.vit
              end
 
     damage.positive? ? damage : 0
+  end
+
+  # クリティカル時の攻撃力
+  def calculate_critical_attack
+    (@str * CRITICAL_ATTACK_CONSTANT).round
   end
 
   # ダメージ値によってHPを処理
