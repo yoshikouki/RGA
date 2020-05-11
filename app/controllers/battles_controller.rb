@@ -27,14 +27,8 @@ class BattlesController < ApplicationController
   def prepare_battle(**params)
     params.each { |k, v| instance_variable_set "@#{k}", v }
     # 戻り値 :battle_info
-    { player_info:    { name: @player.name,
-                        hp:   @player.hp,
-                        str:  @player.str,
-                        vit:  @player.vit },
-      enemy_info:     { name: @enemy.name,
-                        hp:   @enemy.hp,
-                        str:  @enemy.str,
-                        vit:  @enemy.vit },
+    { player_info:    @player,
+      enemy_info:     @enemy,
       situation_info: { battle_type: :normal_battle } }
   end
 
