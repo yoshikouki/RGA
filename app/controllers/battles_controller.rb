@@ -12,7 +12,7 @@ class BattlesController < ApplicationController
   # 戦闘イベント
   # 交互に攻撃し合う
   def battle(**params)
-    return false unless params[:player].valid? || params[:enemy].valid?
+    # return false unless params[:player].valid? || params[:enemy].valid?
 
     @battle_logs = {}
     @battle_logs[:battle_info] = prepare_battle(params)
