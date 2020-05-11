@@ -19,6 +19,10 @@ class BattlesController < ApplicationController
     @battle_logs[:battle_info] = prepare_battle(params)
     @battle_logs[:action_logs] = battle_action(params)
     @battle_logs[:battle_result] = battle_judgement
+    if player_won?
+      reward_result = apply_result
+      @battle_logs[:battle_result].merge!(reward_result)
+    end
     @battle_logs
   end
 
@@ -54,11 +58,10 @@ class BattlesController < ApplicationController
   def battle_judgement
     player_won = player_won?
     names = result_name_list(player_won)
-    reward = calculate_battle_reward(player_won)
     { player_won:     player_won,
       last_player_hp: @player.current_hp,
       last_enemy_hp:  @enemy.current_hp }
-      .merge(names, reward)
+      .merge(names)
   end
 
   # 戦闘結果の判定
@@ -77,17 +80,24 @@ class BattlesController < ApplicationController
     end
   end
 
-  # 戦闘報酬の計算
-  def calculate_battle_reward(player_won)
-    exp, coin = 0
-    if player_won
-      exp = (@enemy.str + @enemy.vit) * EXP_CONSTANT
-      coin = @enemy.hp * COIN_CONSTANT
-      @player = @player.earn_reward(get_exp: exp, get_coin: coin)
-    end
-    { get_exp:      exp,
-      current_exp:  @player.exp,
-      get_coin:     coin,
+  def apply_result
+    reward = calculate_battle_reward
+    @player = @player.earn_reward(reward)
+    { current_exp:  @player.exp,
       current_coin: @player.coin }
+      .merge(reward)
+  end
+
+  # 戦闘報酬の計算
+  def calculate_battle_reward
+    exp = (@enemy.str + @enemy.vit) * EXP_CONSTANT
+    coin = @enemy.hp * COIN_CONSTANT
+    { get_exp:  exp,
+      get_coin: coin }
+  end
+
+  # 報酬が両方0ならtrue
+  def reward_none?(**params)
+    params[:get_exp].zero? && params[:get_coin].zero?
   end
 end

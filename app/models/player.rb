@@ -26,11 +26,11 @@ class Player < ApplicationRecord
     super(params)
   end
 
-  def earn_reward(get_exp: get_exp, get_coin: get_coin )
-    get_exp = 0 unless get_exp.positive?
-    get_coin = 0 unless get_coin.positive?
-    update(exp:  self.exp += get_exp,
-           coin: self.coin += get_coin)
+  # 獲得したEXPとコインを保存
+  # params[:get_exp, :get_coin]
+  def earn_reward(**params)
+    update(exp:  self.exp += params[:get_exp],
+           coin: self.coin += params[:get_coin])
     self
   end
 
