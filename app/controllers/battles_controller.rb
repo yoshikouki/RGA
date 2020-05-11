@@ -83,8 +83,11 @@ class BattlesController < ApplicationController
     if player_won
       exp = (@enemy.str + @enemy.vit) * EXP_CONSTANT
       coin = @enemy.hp * COIN_CONSTANT
+      @player = @player.earn_reward(get_exp: exp, get_coin: coin)
     end
-    { get_exp:  exp,
-      get_coin: coin }
+    { get_exp:      exp,
+      current_exp:  @player.exp,
+      get_coin:     coin,
+      current_coin: @player.coin }
   end
 end

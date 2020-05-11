@@ -141,13 +141,15 @@
       = "#{battle_result[:winner_name]}は"
       %span{ class: bs_c[:user_won] } 戦闘に勝利した！
     .div
-      EXP :
+      獲得EXP :
       %span{ class: bs_c[:get_exp] }
         = battle_result[:get_exp]
+      = "（計EXP #{battle_result[:current_exp]}）"
     .div
-      COIN :
+      獲得COIN :
       %span{ class: bs_c[:get_coin] }
         = battle_result[:get_coin]
+      = "（現COIN #{battle_result[:current_coin]}）"
   -else
     .div{ class: bs_c[:user_lose] }
       = "戦闘に敗北した..."
