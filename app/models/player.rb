@@ -2,6 +2,21 @@
 class Player < ApplicationRecord
   include Character
 
+  with_options presence: true do
+    with_options numericality: { only_integer: true } do
+      validates :lv
+      validates :exp
+      validates :hp
+      validates :str
+      validates :vit
+      validates :coin
+    end
+    with_options uniqueness: { case_sensitive: false } do
+      validates :user_id
+      validates :name, length: { maximum: 50 }
+    end
+  end
+
   def initialize(params)
     params = params ? params.reverse_merge(INIT_PARAMS) : INIT_PARAMS
     super(params)
