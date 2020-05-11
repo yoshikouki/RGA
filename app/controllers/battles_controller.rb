@@ -83,9 +83,10 @@ class BattlesController < ApplicationController
   def apply_result
     reward = calculate_battle_reward
     @player = @player.earn_reward(reward)
+    lv_info = @player.decision_level_up
     { current_exp:  @player.exp,
       current_coin: @player.coin }
-      .merge(reward)
+      .merge(reward, lv_info)
   end
 
   # 戦闘報酬の計算

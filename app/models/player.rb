@@ -34,6 +34,34 @@ class Player < ApplicationRecord
     self
   end
 
+  def decision_level_up
+    if exp >= lv**2
+      lv_diff = calculate_lv_diff
+      grow_status(lv_diff)
+      { lv_upped: { lv_diff:   lv_diff,
+                    after_lv:  lv,
+                    after_hp:  hp,
+                    after_str: str,
+                    after_vit: vit } }
+    end
+  end
+
+  def calculate_lv_diff
+    next_lv_diff = 0
+    loop do
+      next_lv_diff += 1
+      break if exp < (lv + next_lv_diff)**2
+    end
+    (next_lv_diff - 1)
+  end
+
+  def grow_status(lv_diff)
+    update(lv:  self.lv += lv_diff,
+           hp:  self.hp += lv_diff,
+           str: self.str += lv_diff,
+           vit: self.vit += lv_diff)
+  end
+
   INIT_PARAMS = {
     name: 'init_player',
     lv:   1,
