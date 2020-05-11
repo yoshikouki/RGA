@@ -2,6 +2,10 @@
 class Player < ApplicationRecord
   include Character
 
+  # new, create, find 後に実行
+  # Module #initializeではfindで実行されない
+  after_initialize :set_current_hp
+
   with_options presence: true do
     with_options numericality: { only_integer: true } do
       validates :lv

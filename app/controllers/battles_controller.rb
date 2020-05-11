@@ -4,15 +4,16 @@ class BattlesController < ApplicationController
   COIN_CONSTANT = 3
 
   def index
-    @player = Player.new(name: 'マダオ', hp: 50, str: 200, vit: 10)
-    @enemy = Player.new(name: 'スライム', hp: 600, str: 20, vit: 100)
+    @player = Player.find(1)
+    # @enemy = Player.find(2)
+    @enemy = Player.new(name: 'マダオ', hp: 50, str: 20, vit: 5)
     battle(player: @player, enemy: @enemy)
   end
 
   # 戦闘イベント
   # 交互に攻撃し合う
   def battle(**params)
-    # return false unless params[:player].valid? || params[:enemy].valid?
+    return false unless params[:player].valid? || params[:enemy].valid?
 
     @battle_logs = {}
     @battle_logs[:battle_info] = prepare_battle(params)

@@ -7,8 +7,7 @@ module Character
 
   CRITICAL_ATTACK_CONSTANT = 1.5
 
-  def initialize(**params)
-    super(params)
+  def set_current_hp
     self.current_hp = hp
   end
 
