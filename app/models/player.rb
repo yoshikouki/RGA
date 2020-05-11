@@ -3,16 +3,16 @@ class Player < ApplicationRecord
   include Character
 
   def initialize(params)
-    params ||= INIT_PARAMS
+    params = params ? params.reverse_merge(INIT_PARAMS) : INIT_PARAMS
     super(params)
   end
 
   INIT_PARAMS = {
-    name: 'マダオ',
+    name: 'init_player',
     lv:   1,
     exp:  0,
-    hp:   50,
-    str:  200,
+    hp:   100,
+    str:  10,
     vit:  10,
     coin: 0
   }.freeze
