@@ -44,6 +44,10 @@
         %span{ class: bs_c[:status_badge] }
           VIT
         = player[:vit]
+      %span{ class: bs_c[:character_status]}
+        %span{ class: bs_c[:status_badge] }
+          LV
+        = player[:lv]
     .row
       %div{ colspan: 5, class: bs_c[:vs_badge] }
         VS
@@ -145,6 +149,22 @@
       %span{ class: bs_c[:get_exp] }
         = battle_result[:get_exp]
       = "（計EXP #{battle_result[:current_exp]}）"
+    - if battle_result[:lv_upped][:lv_diff].positive?
+      .div
+        = "Lvが#{battle_result[:lv_upped][:lv_diff]}上がった！"
+      .div
+        %span{ class: bs_c[:status_badge] }
+          LV
+        = battle_result[:lv_upped][:after_lv]
+        %span{ class: bs_c[:status_badge] }
+          HP
+        = battle_result[:lv_upped][:after_hp]
+        %span{ class: bs_c[:status_badge] }
+          STR
+        = battle_result[:lv_upped][:after_str]
+        %span{ class: bs_c[:status_badge] }
+          VIT
+        = battle_result[:lv_upped][:after_vit]
     .div
       獲得COIN :
       %span{ class: bs_c[:get_coin] }
