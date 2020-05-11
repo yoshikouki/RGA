@@ -41,6 +41,11 @@ group :development, :test do
   gem 'dotenv-rails'
   # テスト環境
   gem 'rspec-rails', '~> 4.0.0'
+  # rails consoleの上位互換
+  gem 'pry'
+  gem 'pry-rails'
+  gem 'pry-byebug'
+  gem 'pry-doc'
 end
 
 group :development do
