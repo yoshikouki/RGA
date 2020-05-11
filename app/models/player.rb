@@ -35,7 +35,7 @@ class Player < ApplicationRecord
   end
 
   def decision_level_up
-    if exp >= lv**2
+    if exp >= (lv + 1)**2
       lv_diff = calculate_lv_diff
       grow_status(lv_diff)
       { lv_upped: { lv_diff:   lv_diff,
@@ -43,11 +43,11 @@ class Player < ApplicationRecord
                     after_hp:  hp,
                     after_str: str,
                     after_vit: vit } }
-    end
+    else { lv_upped: false }; end
   end
 
   def calculate_lv_diff
-    next_lv_diff = 0
+    next_lv_diff = 1
     loop do
       next_lv_diff += 1
       break if exp < (lv + next_lv_diff)**2

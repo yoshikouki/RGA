@@ -149,7 +149,7 @@
       %span{ class: bs_c[:get_exp] }
         = battle_result[:get_exp]
       = "（計EXP #{battle_result[:current_exp]}）"
-    - if battle_result[:lv_upped][:lv_diff].positive?
+    - if battle_result[:lv_upped]
       .div
         = "Lvが#{battle_result[:lv_upped][:lv_diff]}上がった！"
       .div
