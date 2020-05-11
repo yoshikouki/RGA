@@ -1,5 +1,8 @@
+require 'active_support/concern'
 # ゲームに関するUser/ Enemyクラスの共通モジュール
 module Character
+  extend ActiveSupport::Concern
+
   attr_accessor :name, :str, :vit, :hp, :current_hp
 
   CRITICAL_ATTACK_CONSTANT = 1.5
