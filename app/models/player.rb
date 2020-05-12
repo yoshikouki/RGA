@@ -34,16 +34,12 @@ class Player < ApplicationRecord
     self
   end
 
-  def decision_level_up
-    if exp >= (lv + 1)**2
-      lv_diff = calculate_lv_diff
-      grow_status(lv_diff)
-      { lv_upped: { lv_diff:   lv_diff,
-                    after_lv:  lv,
-                    after_hp:  hp,
-                    after_str: str,
-                    after_vit: vit } }
-    else { lv_upped: false }; end
+  def decision_lv_up
+    return false if exp < (lv + 1)**2
+
+    lv_up_diff = calculate_lv_diff
+    grow_status(lv_up_diff)
+    lv_up_diff
   end
 
   def calculate_lv_diff

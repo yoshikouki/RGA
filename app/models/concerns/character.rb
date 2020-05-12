@@ -2,6 +2,7 @@ require 'active_support/concern'
 # ゲームに関するUser/ Enemyクラスの共通モジュール
 module Character
   extend ActiveSupport::Concern
+  include MessageGenerator
 
   attr_accessor :current_hp
 
@@ -17,12 +18,7 @@ module Character
     damage = calculate_damage(target: target, critical_hit: critical_hit)
     cause_damage(target: target, damage: damage)
     #  戻り値 :action_logs配列アイテムの一部
-    { actor_name:        name,
-      target_name:       target.name,
-      act_type:          attack_type,
-      critical_hit:      critical_hit,
-      damage:            damage,
-      current_target_hp: target.current_hp }
+    g_attack_hash(self, target, attack_type, critical_hit, damage)
   end
 
   private

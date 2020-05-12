@@ -19,14 +19,22 @@ module MessageGenerator
     }
   end
 
-  def g_battle_info(battle_type: battle_type)
+  def g_battle_info(battle_type)
     @battle_logs[:battle_info] = {
-      player_info:    @player.attributes.symbolize_keys,
-      enemy_info:     @enemy.attributes.symbolize_keys,
+      begin_player:   @player.attributes.symbolize_keys,
+      begin_enemy:    @enemy.attributes.symbolize_keys,
       situation_info: {
         battle_type: battle_type
       }
     }
+  end
+
+  def g_attack_hash(character, target, attack_type, critical_hit, damage)
+    { actor_name:   character.name,
+      target_name:  target.name,
+      act_type:     attack_type,
+      critical_hit: critical_hit,
+      damage:       damage }
   end
 
   def g_act_log(index, attack_hash)
@@ -55,10 +63,11 @@ module MessageGenerator
     end
   end
 
-  def g_reward_list(reward, lv_info)
-    @battle_logs[:battle_result].merge!({
-      current_exp:  @player.exp,
-      current_coin: @player.coin
-    }.merge(reward, lv_info))
+  def g_reward_info(reward, lv_up_diff)
+    @battle_logs[:battle_result]
+      .merge!({ get_exp:         reward[:get_exp],
+                get_coin:        reward[:get_coin],
+                end_player_info: @player.attributes.symbolize_keys,
+                lv_upped:        lv_up_diff })
   end
 end
