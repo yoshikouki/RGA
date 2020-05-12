@@ -2,6 +2,7 @@
 class BattlesController < ApplicationController
   EXP_CONSTANT = 2
   COIN_CONSTANT = 3
+  include MessageGenerator
 
   def index
     @player = Player.find(1)
@@ -31,9 +32,7 @@ class BattlesController < ApplicationController
   def prepare_battle(**params)
     params.each { |k, v| instance_variable_set "@#{k}", v }
     # 戻り値 :battle_info
-    { player_info:    @player,
-      enemy_info:     @enemy,
-      situation_info: { battle_type: :normal_battle } }
+    g_battle_info(battle_type: :normal_battle)
   end
 
   def battle_action(_params)
@@ -56,12 +55,9 @@ class BattlesController < ApplicationController
 
   # 戦闘結果
   def battle_judgement
-    player_won = player_won?
-    names = result_name_list(player_won)
-    { player_won:     player_won,
-      last_player_hp: @player.current_hp,
-      last_enemy_hp:  @enemy.current_hp }
-      .merge(names)
+    player_won?
+    names = result_name_list
+    g_battle_result(name_list: names)
   end
 
   # 戦闘結果の判定
@@ -70,31 +66,22 @@ class BattlesController < ApplicationController
   end
 
   # 勝者と敗者の名前を変数定義
-  def result_name_list(player_won)
-    if player_won
-      { winner_name: @player.name,
-        loser_name:  @enemy.name }
-    else
-      { winner_name: @enemy.name,
-        loser_name:  @player.name }
-    end
+  def result_name_list
+    g_result_name_list
   end
 
   def apply_result
     reward = calculate_battle_reward
     @player = @player.earn_reward(reward)
     lv_info = @player.decision_level_up
-    { current_exp:  @player.exp,
-      current_coin: @player.coin }
-      .merge(reward, lv_info)
+    g_reward_list(reward, lv_info)
   end
 
   # 戦闘報酬の計算
   def calculate_battle_reward
     exp = (@enemy.str + @enemy.vit) * EXP_CONSTANT
     coin = @enemy.hp * COIN_CONSTANT
-    { get_exp:  exp,
-      get_coin: coin }
+    g_get_reward(get_exp: exp, get_coin: coin)
   end
 
   # 報酬が両方0ならtrue
