@@ -21,8 +21,8 @@ module MessageGenerator
 
   def g_battle_info(battle_type: battle_type)
     @battle_logs[:battle_info] = {
-      player_info:    @player,
-      enemy_info:     @enemy,
+      player_info:    @player.attributes.symbolize_keys,
+      enemy_info:     @enemy.attributes.symbolize_keys,
       situation_info: {
         battle_type: battle_type
       }

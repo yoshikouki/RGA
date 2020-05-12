@@ -7,7 +7,7 @@ class BattlesController < ApplicationController
   def index
     @player = Player.find(1)
     # @enemy = Player.find(2)
-    @enemy = Player.new(name: 'マダオ', hp: 50, str: 20, vit: 5)
+    @enemy = Player.new(name: 'マダオ', hp: @player.hp, str: @player.str, vit: @player.vit * 0.5)
     battle(player: @player, enemy: @enemy)
   end
 
