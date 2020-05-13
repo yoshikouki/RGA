@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_var
-    @bootstrap_class_list = BOOTSTRAP_CLASS_LIST
+    @bootstrap_class_list = BOOTSTRAP_CLASS_LIST.deep_dup
   end
 
   BOOTSTRAP_CLASS_LIST = {
