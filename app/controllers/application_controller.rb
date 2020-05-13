@@ -26,6 +26,10 @@ class ApplicationController < ActionController::Base
   end
 
   BOOTSTRAP_CLASS_LIST = {
-    v: ''
+    page_title:     'h4 mb-5',
+    form:           'my-5',
+    form_group:     'form-group mb-3',
+    form_field:     'form-control',
+    form_submit:    'btn btn-block btn-primary font-weight-bold mt-5 py-4',
   }.freeze
 end
