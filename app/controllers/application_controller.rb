@@ -31,5 +31,8 @@ class ApplicationController < ActionController::Base
     form_group:     'form-group mb-3',
     form_field:     'form-control',
     form_submit:    'btn btn-block btn-primary font-weight-bold mt-5 py-4',
+    link_list:      '',
+    link_list_btn:  'btn btn-secondary mb-3',
+    link_list_text: 'small mb-2'
   }.freeze
 end
