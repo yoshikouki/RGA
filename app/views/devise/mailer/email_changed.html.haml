@@ -1,8 +1,13 @@
 %p
-  Hello #{@email}!
+  #{@email}さん
+
 - if @resource.try(:unconfirmed_email?)
   %p
-    We're contacting you to notify you that your email is being changed to #{@resource.unconfirmed_email}.
+    下記メールアドレスへの変更手続きを受け付けましたので連絡いたします。
+
 - else
   %p
-    We're contacting you to notify you that your email has been changed to #{@resource.email}.
+    下記のメールアドレスへの変更手続きが完了しましたので連絡いたします。
+
+%p
+  = @resource.unconfirmed_email
