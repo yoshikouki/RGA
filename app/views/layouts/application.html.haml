@@ -11,10 +11,9 @@
 
   %body
     = render "layouts/header"
-    .container.my-5
+    #alert-box.col.my-5
       - flash.each do |message_type, message|
         = content_tag(:div, message, class: "alert alert-#{message_type}")
-        .notice= notice
-        .alert= alert
+    .container.my-5
       = yield
     = render "layouts/footer"
