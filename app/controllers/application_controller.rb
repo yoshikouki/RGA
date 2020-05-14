@@ -26,17 +26,19 @@ class ApplicationController < ActionController::Base
   end
 
   BOOTSTRAP_CLASS_LIST = {
-    page_title:        'h4 mb-5',
-    form:              'my-5',
-    form_group:        'form-group mb-3',
-    form_field:        'form-control',
-    form_submit:       'btn btn-block btn-primary font-weight-bold mt-5 py-4',
-    link_list:         '',
-    link_list_btn:     'btn btn-secondary mb-3',
-    link_list_text:    'small mb-2',
-    form_errors:       'mb-5',
-    form_errors_title: 'h5',
-    form_errors_lists: 'list-group',
-    form_errors_list:  'list-group-item list-group-item-dark py-1'
+    page_title:         'h4 mb-5',
+    form:               'my-5',
+    form_group:         'form-group mb-3',
+    form_field:         'form-control',
+    form_submit:        'btn btn-block btn-primary font-weight-bold mt-5 py-4',
+    form_small_text:    'form-text small text-gray',
+    link_list:          '',
+    link_list_btn:      'btn btn-secondary mb-3',
+    link_list_text:     'small mb-2',
+    link_btn_secondary: 'btn btn-secondary mb-3',
+    form_errors:        'mb-5',
+    form_errors_title:  'h5',
+    form_errors_lists:  'list-group',
+    form_errors_list:   'list-group-item list-group-item-dark py-1'
   }.freeze
 end
