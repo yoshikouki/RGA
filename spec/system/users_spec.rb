@@ -19,7 +19,7 @@ RSpec.describe 'Users', type: :system do
         fill_in 'form-password-confirmation', with: user.password
       end
       expect { click_on 'form-submit' }.to \
-        change { User.count }.by(1)
+        change(User, :count).by(1)
       expect(Player.first.name).to eq user.username
     end
   end

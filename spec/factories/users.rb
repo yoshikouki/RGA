@@ -7,4 +7,3 @@ FactoryBot.define do
     confirmed_at { 10.days.ago }
   end
 end
-
