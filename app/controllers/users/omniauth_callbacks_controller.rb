@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # SNS認証後のコールバック処理する
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # You should configure your model like this:
