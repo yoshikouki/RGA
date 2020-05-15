@@ -5,6 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :confirmable, :lockable, :timeoutable, :trackable,
          :omniauthable, omniauth_providers: [:twitter]
+  has_one :player, dependent: :destroy
+  accepts_nested_attributes_for :player
 
   # SNS認証用。認証データでUserを検索して返す。ない場合は作成する。
   def self.from_omniauth(auth)

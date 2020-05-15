@@ -2,6 +2,8 @@
 class Player < ApplicationRecord
   include Character
 
+  belongs_to :user
+
   # new, create, find 後に実行
   # Module #initializeではfindで実行されない
   after_initialize :set_current_hp
