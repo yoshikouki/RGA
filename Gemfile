@@ -41,6 +41,8 @@ group :development, :test do
   gem 'dotenv-rails'
   # テスト環境
   gem 'rspec-rails', '~> 4.0.0'
+  # テストデータの作成
+  gem 'factory_bot_rails'
   # rails consoleの上位互換
   gem 'pry'
   gem 'pry-rails'
