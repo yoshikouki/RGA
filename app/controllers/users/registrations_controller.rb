@@ -13,8 +13,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     super
-    resource.build_player(name: resource.username)
-    resource.save
   end
 
   # GET /resource/edit
@@ -25,7 +23,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # PUT /resource
   def update
     super
-    @user.player.update(user_params)
   end
 
   # DELETE /resource

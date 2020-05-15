@@ -1,12 +1,26 @@
 # 主にユーザーコア情報や認証用のデータ
 class User < ApplicationRecord
+  has_one :player, dependent: :destroy
+  accepts_nested_attributes_for :player
+
+  after_create :to_create_player
+  after_update :to_update_player
+
+  # User作成と同時にPlayerも作成する
+  def to_create_player
+    create_player(name: username)
+  end
+
+  # Userのupdateが行われるとPlayerにも反映
+  def to_update_player
+    player.update(name: username)
+  end
+
   # ユーザー認証に関する機能を宣言
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable, :lockable, :timeoutable, :trackable,
          :omniauthable, omniauth_providers: [:twitter]
-  has_one :player, dependent: :destroy
-  accepts_nested_attributes_for :player
 
   # SNS認証用。認証データでUserを検索して返す。ない場合は作成する。
   def self.from_omniauth(auth)
