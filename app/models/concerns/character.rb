@@ -1,12 +1,15 @@
+require 'active_support/concern'
 # ゲームに関するUser/ Enemyクラスの共通モジュール
 module Character
-  attr_accessor :name, :str, :vit, :hp, :current_hp
+  extend ActiveSupport::Concern
+  include MessageGenerator
+
+  attr_accessor :current_hp
 
   CRITICAL_ATTACK_CONSTANT = 1.5
 
-  def initialize(**params)
-    super(params)
-    @current_hp = @hp
+  def set_current_hp
+    self.current_hp = hp
   end
 
   def attack(target)
@@ -15,12 +18,7 @@ module Character
     damage = calculate_damage(target: target, critical_hit: critical_hit)
     cause_damage(target: target, damage: damage)
     #  戻り値 :action_logs配列アイテムの一部
-    { actor_name:        @name,
-      target_name:       target.name,
-      act_type:          attack_type,
-      critical_hit:      critical_hit,
-      damage:            damage,
-      current_target_hp: target.current_hp }
+    g_attack_hash(self, target, attack_type, critical_hit, damage)
   end
 
   private
@@ -33,14 +31,14 @@ module Character
   # ダメージ計算
   # params[:target, :attack_type]
   def calculate_damage(**params)
-    atk = params[:critical_hit] ? calculate_critical_attack : @str
+    atk = params[:critical_hit] ? calculate_critical_attack : str
     damage = damage_range(atk) - params[:target].vit
     damage.positive? ? damage : 0
   end
 
   # クリティカル時の攻撃力
   def calculate_critical_attack
-    (@str * CRITICAL_ATTACK_CONSTANT).round
+    (str * CRITICAL_ATTACK_CONSTANT).round
   end
 
   # ダメージの振れ幅を計算する

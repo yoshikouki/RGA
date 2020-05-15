@@ -9,12 +9,11 @@
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
 
-  %body.bg-dark.text-white
+  %body
     = render "layouts/header"
-    .container.my-5
+    #alert-box.col.my-5
       - flash.each do |message_type, message|
         = content_tag(:div, message, class: "alert alert-#{message_type}")
-        .notice= notice
-        .alert= alert
+    .container.my-5
       = yield
     = render "layouts/footer"

@@ -41,6 +41,13 @@ group :development, :test do
   gem 'dotenv-rails'
   # テスト環境
   gem 'rspec-rails', '~> 4.0.0'
+  # テストデータの作成
+  gem 'factory_bot_rails'
+  # rails consoleの上位互換
+  gem 'pry'
+  gem 'pry-rails'
+  gem 'pry-byebug'
+  gem 'pry-doc'
 end
 
 group :development do
@@ -50,12 +57,18 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-
+  gem 'spring-commands-rspec'
   # コード解析・整形
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rspec', require: false
+end
+
+group :test do
+  # Systemテスト環境
+  gem 'webdrivers'
+  gem 'capybara'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

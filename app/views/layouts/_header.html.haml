@@ -19,6 +19,7 @@
                     id: "edit-user-registration", class: bs_c[:header_nav_item]) do
             %i.fas.fa-user-cog
           = link_to(destroy_user_session_path,
+                    method: :delete,
                     id: "sign-out", class: bs_c[:header_nav_item]) do
             %i.fas.fa-sign-out-alt
         - else
