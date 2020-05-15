@@ -7,7 +7,7 @@
 %h2{ class: bs_c[:page_title] }
   ログイン
 
-#sign-up-form{ class: bs_c[:form] }
+#sign-in-form{ class: bs_c[:form] }
   = form_for(resource,
              as: resource_name,
              url: session_path(resource_name)) do |f|
@@ -17,6 +17,7 @@
       = f.email_field :email,
                       autofocus: true,
                       autocomplete: "email",
+                      id: 'form-email',
                       class: bs_c[:form_field]
 
     .field{ class: bs_c[:form_group] }
@@ -24,7 +25,8 @@
                 'パスワード'
       = f.password_field :password,
                          autocomplete: "current-password",
-                      class: bs_c[:form_field]
+                         id: 'form-password',
+                         class: bs_c[:form_field]
 
     .field.form-check{ class: bs_c[:form_group] }
       = f.check_box :remember_me,
@@ -35,6 +37,7 @@
 
     .actions{ class: bs_c[:form_group] }
       = f.submit 'ログイン',
+                 id: 'form-submit',
                  class: bs_c[:form_submit]
 
 = render "devise/shared/links"
