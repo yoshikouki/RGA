@@ -5,9 +5,12 @@ class BattlesController < ApplicationController
   include MessageGenerator
 
   def index
-    @player = Player.find(1)
-    # @enemy = Player.find(2)
-    @enemy = Player.new(name: 'マダオ', hp: @player.hp, str: @player.str, vit: @player.vit * 0.5)
+    @player = current_user.player
+    enemy_params = { name: 'マダオ',
+                     hp:   @player.hp,
+                     str:  @player.str,
+                     vit:  @player.vit * 0.5 }
+    @enemy = Player.new(enemy_params)
     battle(player: @player, enemy: @enemy)
   end
 
