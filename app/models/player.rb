@@ -3,6 +3,7 @@ class Player < ApplicationRecord
   include Character
 
   belongs_to :user
+  has_many :job_levels, dependent: :destroy
 
   # new, create, find 後に実行
   # Module #initializeではfindで実行されない
