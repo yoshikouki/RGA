@@ -37,20 +37,17 @@ class Player < ApplicationRecord
   # params[:get_exp, :get_coin]
   # 戻り値：自インスタンス
   def earn_reward(**params)
-    get_exp = params[:get_exp]
-    update(exp:  self.exp += get_exp,
+    update(exp:  self.exp += params[:get_exp],
            coin: self.coin += params[:get_coin])
-    current_job.earn_reward(get_exp)
     self
   end
 
   # レベルアップしているかを確認し、していればステータスなどを加算する
   # 戻り値：レベルアップの数値（int）
   def decision_lv_up
-    return false unless lv_upped? || current_job.level_upped?
+    return false unless lv_upped?
 
-    calculate_lv_diff.grow_status if lv_upped?
-    current_job.decision_level_up if current_job.level_upped?
+    calculate_lv_diff.grow_status
   end
 
   # Playerレベルが上っているかどうかを判断する

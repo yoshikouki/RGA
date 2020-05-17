@@ -5,14 +5,17 @@ class JobLevel < ApplicationRecord
 
   attr_accessor :job_level_up_diff
 
-  # ジョブレベルが上がっているか判定する
-  def level_upped?
-    job_exp >= (job_level + 1)**2
   end
 
   # 獲得した経験値をジョブEXPに反映
-  def earn_reward(get_exp)
-    update(job_exp: self.job_exp += get_exp)
+  def earn_reward(reward)
+    update(job_exp: self.job_exp += reward[:get_exp])
+    self
+  end
+
+  # ジョブレベルが上がっているか判定する
+  def level_upped?
+    job_exp >= (job_level + 1)**2
   end
 
   # ジョブレベルアップの処理

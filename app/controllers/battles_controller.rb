@@ -59,7 +59,13 @@ class BattlesController < ApplicationController
 
   def apply_result
     reward = calculate_battle_reward
-    @player.earn_reward(reward).decision_lv_up
+    @player
+      .earn_reward(reward)
+      .decision_lv_up
+    @player
+      .current_job
+      .earn_reward(reward)
+      .decision_level_up
     g_reward_info(reward)
   end
 
