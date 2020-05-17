@@ -5,10 +5,15 @@ class JobLevel < ApplicationRecord
 
   attr_accessor :job_level_up_diff
 
+  # ジョブがレベル上限に達していればtrue
+  def reached_in_level_limit?
+    job_level >= Job.find(job_id).level_limit
   end
 
   # 獲得した経験値をジョブEXPに反映
   def earn_reward(reward)
+    return self if reached_in_level_limit?
+
     update(job_exp: self.job_exp += reward[:get_exp])
     self
   end
@@ -20,6 +25,8 @@ class JobLevel < ApplicationRecord
 
   # ジョブレベルアップの処理
   def decision_level_up
+    return false unless level_upped? || !reached_in_level_limit?
+
     next_lv_diff = 1
     loop do
       next_lv_diff += 1
