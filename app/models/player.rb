@@ -50,6 +50,8 @@ class Player < ApplicationRecord
     return false unless lv_upped? || current_job.level_upped?
 
     calculate_lv_diff.grow_status if lv_upped?
+    current_job.decision_level_up if current_job.level_upped?
+  end
 
   # Playerレベルが上っているかどうかを判断する
   def lv_upped?
