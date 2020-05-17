@@ -1,3 +1,4 @@
+# プレイヤーの各ジョブに関するモデル
 class JobLevel < ApplicationRecord
   belongs_to :player
   belongs_to :job
@@ -27,7 +28,7 @@ class JobLevel < ApplicationRecord
   end
 
   def grow_job_status
-    update(job_level:  self.job_level += @job_level_up_diff)
+    update(job_level: self.job_level += @job_level_up_diff)
   end
 
   NEXT_LV_EXP_DIFF = 2
