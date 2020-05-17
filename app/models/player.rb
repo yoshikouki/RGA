@@ -25,6 +25,7 @@ class Player < ApplicationRecord
     end
   end
 
+  # インスタンス化した際にステータスが nil だった場合は初期値で上書き
   def initialize(params)
     params = params ? params.reverse_merge(INIT_PARAMS) : INIT_PARAMS
     super(params)
@@ -32,12 +33,15 @@ class Player < ApplicationRecord
 
   # 獲得したEXPとコインを保存
   # params[:get_exp, :get_coin]
+  # 戻り値：自インスタンス
   def earn_reward(**params)
     update(exp:  self.exp += params[:get_exp],
            coin: self.coin += params[:get_coin])
     self
   end
 
+  # レベルアップしているかを確認し、していればステータスなどを加算する
+  # 戻り値：レベルアップの数値（int）
   def decision_lv_up
     return false if exp < (lv + 1)**2
 
@@ -46,6 +50,8 @@ class Player < ApplicationRecord
     lv_up_diff
   end
 
+  # 現在の経験値がどのレベルに当たるかを計算する
+  # 戻り値：レベルアップの数値（int）
   def calculate_lv_diff
     next_lv_diff = 1
     loop do
@@ -55,6 +61,8 @@ class Player < ApplicationRecord
     (next_lv_diff - 1)
   end
 
+  # 上がったレベルに応じてステータスを加算する。
+  # 戻り値：なし
   def grow_status(lv_diff)
     update(lv:  self.lv += lv_diff,
            hp:  self.hp += lv_diff,
