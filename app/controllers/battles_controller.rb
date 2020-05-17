@@ -59,8 +59,8 @@ class BattlesController < ApplicationController
 
   def apply_result
     reward = calculate_battle_reward
-    lv_up_diff = @player.earn_reward(reward).decision_lv_up
-    g_reward_info(reward, lv_up_diff)
+    @player.earn_reward(reward).decision_lv_up
+    g_reward_info(reward)
   end
 
   # 戦闘報酬の計算

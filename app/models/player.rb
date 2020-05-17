@@ -9,6 +9,8 @@ class Player < ApplicationRecord
   # Module #initializeではfindで実行されない
   after_initialize :set_current_hp
 
+  attr_accessor :lv_up_diff
+
   with_options presence: true do
     with_options numericality: { only_integer: true } do
       validates :lv
@@ -25,7 +27,7 @@ class Player < ApplicationRecord
     end
   end
 
-  # インスタンス化した際にステータスが nil だった場合は初期値で上書き
+  # #new でステータスが nil の場合は初期値で上書き
   def initialize(params)
     params = params ? params.reverse_merge(INIT_PARAMS) : INIT_PARAMS
     super(params)
@@ -45,31 +47,34 @@ class Player < ApplicationRecord
   # レベルアップしているかを確認し、していればステータスなどを加算する
   # 戻り値：レベルアップの数値（int）
   def decision_lv_up
-    return false if exp < (lv + 1)**2
+    return false unless lv_upped? || current_job.level_upped?
 
-    lv_up_diff = calculate_lv_diff
-    grow_status(lv_up_diff)
-    lv_up_diff
+    calculate_lv_diff.grow_status if lv_upped?
+
+  # Playerレベルが上っているかどうかを判断する
+  def lv_upped?
+    (exp >= (lv + 1)**NEXT_LV_EXP_DIFF)
   end
 
   # 現在の経験値がどのレベルに当たるかを計算する
-  # 戻り値：レベルアップの数値（int）
+  # 戻り値：自インスタンス
   def calculate_lv_diff
     next_lv_diff = 1
     loop do
       next_lv_diff += 1
-      break if exp < (lv + next_lv_diff)**2
+      break if exp < (lv + next_lv_diff)**NEXT_LV_EXP_DIFF
     end
-    (next_lv_diff - 1)
+    @lv_up_diff = (next_lv_diff - 1)
+    self
   end
 
   # 上がったレベルに応じてステータスを加算する。
   # 戻り値：なし
-  def grow_status(lv_diff)
-    update(lv:  self.lv += lv_diff,
-           hp:  self.hp += lv_diff,
-           str: self.str += lv_diff,
-           vit: self.vit += lv_diff)
+  def grow_status
+    update(lv:  self.lv += @lv_up_diff,
+           hp:  self.hp += @lv_up_diff,
+           str: self.str += @lv_up_diff,
+           vit: self.vit += @lv_up_diff)
   end
 
   # 現在ジョブのインスタンスを返す
@@ -85,6 +90,9 @@ class Player < ApplicationRecord
     str:            10,
     vit:            10,
     coin:           0,
-    current_job_id: 1
+    current_job_id: 1,
+    lv_up_diff:     0
   }.freeze
+
+  NEXT_LV_EXP_DIFF = 2
 end
