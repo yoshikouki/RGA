@@ -8,6 +8,7 @@ class Player < ApplicationRecord
   # new, create, find 後に実行
   # Module #initializeではfindで実行されない
   after_initialize :set_current_hp
+  after_create :to_create_job_level
 
   attr_accessor :lv_up_diff
 
@@ -79,6 +80,17 @@ class Player < ApplicationRecord
   # 現在ジョブのインスタンスを返す
   def current_job
     job_levels.find(current_job_id)
+  end
+
+  private
+
+  def to_create_job_level
+    init_job_level = {
+      job_id:    current_job_id,
+      job_level: 1,
+      job_exp:   0
+    }
+    job_levels.create(init_job_level)
   end
 
   INIT_PARAMS = {
