@@ -35,8 +35,10 @@ class Player < ApplicationRecord
   # params[:get_exp, :get_coin]
   # 戻り値：自インスタンス
   def earn_reward(**params)
-    update(exp:  self.exp += params[:get_exp],
+    get_exp = params[:get_exp]
+    update(exp:  self.exp += get_exp,
            coin: self.coin += params[:get_coin])
+    current_job.earn_reward(get_exp)
     self
   end
 
@@ -68,6 +70,11 @@ class Player < ApplicationRecord
            hp:  self.hp += lv_diff,
            str: self.str += lv_diff,
            vit: self.vit += lv_diff)
+  end
+
+  # 現在ジョブのインスタンスを返す
+  def current_job
+    job_levels.find(current_job_id)
   end
 
   INIT_PARAMS = {
