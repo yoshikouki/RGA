@@ -17,6 +17,7 @@ class Player < ApplicationRecord
       validates :str
       validates :vit
       validates :coin
+      validates :current_job_id
     end
     with_options uniqueness: { case_sensitive: false } do
       validates :user_id
@@ -62,12 +63,13 @@ class Player < ApplicationRecord
   end
 
   INIT_PARAMS = {
-    name: 'init_player',
-    lv:   1,
-    exp:  0,
-    hp:   100,
-    str:  10,
-    vit:  10,
-    coin: 0
+    name:           'init_player',
+    lv:             1,
+    exp:            0,
+    hp:             100,
+    str:            10,
+    vit:            10,
+    coin:           0,
+    current_job_id: 1
   }.freeze
 end
