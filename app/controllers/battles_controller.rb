@@ -3,6 +3,7 @@ class BattlesController < ApplicationController
   EXP_CONSTANT = 2
   COIN_CONSTANT = 3
   include MessageGenerator
+  before_action :sign_in_required
 
   def index
     @player = current_user.player
