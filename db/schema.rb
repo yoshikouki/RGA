@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_16_132227) do
+ActiveRecord::Schema.define(version: 2020_05_17_031350) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2020_05_16_132227) do
     t.bigint "coin"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "current_job_id"
     t.index ["name"], name: "index_players_on_name", unique: true
     t.index ["user_id"], name: "index_players_on_user_id", unique: true
   end
