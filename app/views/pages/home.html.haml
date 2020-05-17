@@ -9,5 +9,15 @@
 %p もしくはタップゲームかも知れません
 %p ご期待ください！
 
+#job-select.mb-5
+  - current_job_id = current_user.player.current_job_id
+  - current_job = { name: Job.find(current_job_id).job_name,
+                    level: JobLevel.find_by(job_id: current_job_id).job_level }
+  現在ジョブ
+  = current_job[:name]
+  (ジョブ Lv :
+  = current_job[:level]
+  )
+
 = link_to battles_path, class: bs_c[:battle_button] do
   バトルへ
