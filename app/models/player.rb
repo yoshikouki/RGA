@@ -5,12 +5,12 @@ class Player < ApplicationRecord
   belongs_to :user
   has_many :job_levels, dependent: :destroy
 
-  # new, create, find 後に実行
-  # Module #initialize ではfindで実行されない
+  # new, create, find(インスタンス化) 後に実行
   after_initialize :set_params
   after_create :to_create_job_level
 
-  attr_accessor :lv_up_diff
+  attr_accessor :lv_up_diff,
+                :next_lv_exp
 
   with_options presence: true do
     with_options numericality: { only_integer: true } do
@@ -32,6 +32,12 @@ class Player < ApplicationRecord
   def initialize(params)
     params = params ? params.reverse_merge(INIT_PARAMS) : INIT_PARAMS
     super(params)
+  end
+
+  # インスタンス化するたびにパラメータを設定
+  def set_params
+    self.current_hp = hp
+    self.next_lv_exp = calculate_exp_to_lv_up(lv + 1)
   end
 
   # 獲得したEXPとコインを保存

@@ -3,7 +3,17 @@ class JobLevel < ApplicationRecord
   belongs_to :player
   belongs_to :job
 
-  attr_accessor :job_level_up_diff
+  after_initialize :set_params
+
+  attr_accessor :job_level_up_diff,
+                :job_name,
+                :next_job_level_exp
+
+  # インスタンス化するたびにパラメータを設定
+  def set_params
+    @job_name = job.job_name
+    @next_job_level_exp = calculate_exp_to_level_up(job_level + 1)
+  end
 
   # 獲得した経験値をジョブEXPに反映
   def earn_reward(reward)

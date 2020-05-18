@@ -29,8 +29,6 @@ class ApplicationController < ActionController::Base
 
     @player = current_user.player
     @current_job = @player.current_job
-                          .attributes.symbolize_keys
-                          .merge!(job_name: @player.current_job.job.job_name)
   end
 
   BOOTSTRAP_CLASS_LIST = {
