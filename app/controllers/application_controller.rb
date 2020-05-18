@@ -28,10 +28,9 @@ class ApplicationController < ActionController::Base
     return unless user_signed_in?
 
     @player = current_user.player
-    job_name = Job.find(@player.current_job_id).job_name
     @current_job = @player.current_job
                           .attributes.symbolize_keys
-                          .merge!(job_name: job_name)
+                          .merge!(job_name: @player.current_job.job.job_name)
   end
 
   BOOTSTRAP_CLASS_LIST = {

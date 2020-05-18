@@ -7,7 +7,7 @@ class Player < ApplicationRecord
 
   # new, create, find 後に実行
   # Module #initialize ではfindで実行されない
-  after_initialize :set_current_hp
+  after_initialize :set_params
   after_create :to_create_job_level
 
   attr_accessor :lv_up_diff
@@ -53,7 +53,12 @@ class Player < ApplicationRecord
 
   # Playerレベルが上っているかどうかを判断する
   def lv_upped?
-    (exp >= (lv + 1)**NEXT_LV_EXP_DIFF)
+    exp >= calculate_exp_to_lv_up(lv + 1)
+  end
+
+  # レベルアップするための経験値を計算
+  def calculate_exp_to_lv_up(level)
+    level**NEXT_LV_EXP_DIFF
   end
 
   # 現在の経験値がどのレベルに当たるかを計算する
@@ -62,7 +67,7 @@ class Player < ApplicationRecord
     next_lv_diff = 1
     loop do
       next_lv_diff += 1
-      break if exp < (lv + next_lv_diff)**NEXT_LV_EXP_DIFF
+      break if exp < calculate_exp_to_lv_up(lv + next_lv_diff)
     end
     @lv_up_diff = (next_lv_diff - 1)
     self
