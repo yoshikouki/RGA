@@ -1,23 +1,59 @@
-- bs_c = { battle_button: "btn btn-light btn-block" }
+- bs_c = @bootstrap_class_list
+- bs_c.merge!( status_row: 'col-6 mb-4',
+               status_col: '',
+               player_name: 'h5 font-weight-bold mr-2',
+               job_badge:  'badge badge-light badge-pill h-100' )
 
-%h1
-  %i.fas.fa-dragon
-  RGA
+#player-info
+  #player_name.mb-4
+    %span{ class: bs_c[:player_name] }
+      = @player.name
 
-%h2 RGAとは...
-%p SUPERな放置ゲームです
-%p もしくはタップゲームかも知れません
-%p ご期待ください！
+  #status.row
+
+    #status-lv{ class: bs_c[:status_row] }
+      .status-col{ class: bs_c[:status_col] }
+        %span{ class: bs_c[:status_badge] } Lv
+        = @player.lv
+      .status-col{ class: bs_c[:status_col] }
+        %span{ class: bs_c[:status_badge] } Exp
+        = @player.exp
+      -#.status-col{ class: bs_c[:status_col] }
+      -#  %span{ class: bs_c[:status_badge] } Next Lv
+      -#  = @player.
+
+    #status-job{ class: bs_c[:status_row] }
+      .status-col{ class: bs_c[:status_col] }
+        %span{ class: bs_c[:status_badge] } Job
+        = @current_job[:job_name]
+      .status-col{ class: bs_c[:status_col] }
+        %span{ class: bs_c[:status_badge] } Job Lv
+        = @current_job[:job_level]
+      .status-col{ class: bs_c[:status_col] }
+        %span{ class: bs_c[:status_badge] } Job Exp
+        = @current_job[:job_exp]
+      -#.status-col{ class: bs_c[:status_col] }
+      -#  %span{ class: bs_c[:status_badge] } Next Job Lv
+      -#  = @player.
+
+    #status-params{ class: bs_c[:status_row] }
+      .status-col{ class: bs_c[:status_col] }
+        %span{ class: bs_c[:status_badge] } HP
+        = @player.hp
+      .status-col{ class: bs_c[:status_col] }
+        %span{ class: bs_c[:status_badge] } Str
+        = @player.str
+      .status-col{ class: bs_c[:status_col] }
+        %span{ class: bs_c[:status_badge] } Vit
+        = @player.vit
+
+    #status-etc{ class: bs_c[:status_row] }
+      .status-col{ class: bs_c[:status_col] }
+        %span{ class: bs_c[:status_badge] } Coin
+        = @player.coin
 
 #job-select.mb-5
-  - current_job_id = current_user.player.current_job_id
-  - current_job = { name: Job.find(current_job_id).job_name,
-                    level: JobLevel.find_by(job_id: current_job_id).job_level }
-  現在ジョブ
-  = current_job[:name]
-  (ジョブ Lv :
-  = current_job[:level]
-  )
 
-= link_to battles_path, class: bs_c[:battle_button] do
+
+= link_to battles_path, class: bs_c[:link_btn_block] do
   バトルへ
