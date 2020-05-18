@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   get 'battles/battle'
   get 'battles', to: 'battles#index'
+  get '/introduction', to: 'pages#introduction'
   get 'pages/home'
   root to: 'pages#home'
 end
