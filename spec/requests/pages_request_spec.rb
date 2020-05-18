@@ -5,7 +5,7 @@ RSpec.describe 'Pages', type: :request do
     it 'returns http success' do
       get '/pages/home'
       # expect(response).to have_http_status(:success)
-      expect(response).to redirect_to new_user_session_path
+      expect(response).to redirect_to introduction_path
     end
   end
 end

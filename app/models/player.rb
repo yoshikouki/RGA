@@ -90,7 +90,7 @@ class Player < ApplicationRecord
 
   # 現在ジョブのインスタンスを返す
   def current_job
-    job_levels.find(current_job_id)
+    job_levels.find_by(job_id: current_job_id)
   end
 
   private
