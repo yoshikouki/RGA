@@ -25,6 +25,13 @@ class ApplicationController < ActionController::Base
 
   def set_var
     @bootstrap_class_list = BOOTSTRAP_CLASS_LIST.deep_dup
+    return unless user_signed_in?
+
+    @player = current_user.player
+    job_name = Job.find(@player.current_job_id).job_name
+    @current_job = @player.current_job
+                          .attributes.symbolize_keys
+                          .merge!(job_name: job_name)
   end
 
   BOOTSTRAP_CLASS_LIST = {

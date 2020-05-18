@@ -6,7 +6,7 @@ class Player < ApplicationRecord
   has_many :job_levels, dependent: :destroy
 
   # new, create, find 後に実行
-  # Module #initializeではfindで実行されない
+  # Module #initialize ではfindで実行されない
   after_initialize :set_current_hp
   after_create :to_create_job_level
 

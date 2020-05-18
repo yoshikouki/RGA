@@ -6,7 +6,6 @@ class BattlesController < ApplicationController
   before_action :sign_in_required
 
   def index
-    @player = current_user.player
     enemy_params = { name: 'マダオ',
                      hp:   @player.hp,
                      str:  @player.str,
