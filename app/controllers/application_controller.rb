@@ -45,6 +45,7 @@ class ApplicationController < ActionController::Base
     form_group:           'form-group mb-3',
     form_field:           'form-control',
     form_submit:          'btn btn-block btn-primary font-weight-bold mt-5 py-4',
+    form_submit_small:    'btn btn-light font-weight-bold',
     form_small_text:      'form-text small text-gray',
     form_errors:          'mb-5',
     form_errors_title:    'h5',

@@ -51,7 +51,17 @@
         %span{ class: bs_c[:status_badge] } Coin
         = @player.coin
 
-#job-select.mb-5
+#job-change.mb-5
+  = form_with url: job_change_path, scope: :job_change_list,
+              class: bs_c[:form] do |f|
+    = f.hidden_field :current_job_id, value: @player.current_job_id
+    #job-select{ class: bs_c[:form_group] }
+      = f.select :after_job_id, { class: 'form-control' } do
+        - @player.job_list.each do |job|
+          = content_tag :option, job.job_name, value: job.id
+
+    = f.submit 'ジョブチェンジ',
+               class: bs_c[:form_submit_small]
 
 
 = link_to battles_path, class: bs_c[:link_btn_block] do
