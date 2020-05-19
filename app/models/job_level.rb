@@ -9,6 +9,14 @@ class JobLevel < ApplicationRecord
                 :job_name,
                 :next_job_level_exp
 
+  def initialize(params)
+    init_params = { job_id:    1,
+                    job_level: 1,
+                    job_exp:   0 }
+    params = params ? params.reverse_merge(init_params) : init_params
+    super(params)
+  end
+
   # インスタンス化するたびにパラメータを設定
   def set_params
     @job_name = job.job_name

@@ -93,15 +93,27 @@ class Player < ApplicationRecord
     job_levels.find_by(job_id: current_job_id)
   end
 
+  # ジョブチェンジ可能なリストを返す
+  def job_list
+    Job.all
+  end
+
+  # ジョブチェンジが正当なものか判断する
+  def valid_job_change?(job_list)
+    current_job_id == job_list[:current_job_id].to_i
+  end
+
+  # 現在のジョブを変更する
+  def change_job(job_list)
+    job_id = job_list[:after_job_id]
+    job_levels.find_or_create_by(job_id: job_id)
+    update(current_job_id: job_id)
+  end
+
   private
 
   def to_create_job_level
-    init_job_level = {
-      job_id:    current_job_id,
-      job_level: 1,
-      job_exp:   0
-    }
-    job_levels.create(init_job_level)
+    job_levels.create
   end
 
   INIT_PARAMS = {
