@@ -8,13 +8,12 @@
 %header.sticky-top.bg-dark
   %nav.nav-bar.navbar-dark.container
     .row
-      #logo-rga{ class: bs_c[:header_logo_items] }
-        = link_to(root_path, class: bs_c[:header_logo_item]) do
-          %i.fas.fa-dragon
-          RGA
-
-      #nav-items{ class: bs_c[:header_nav_items] }
-        - if user_signed_in?
+      - if user_signed_in?
+        #header-player-info{ class: bs_c[:header_logo_items] }
+          = link_to(root_path, class: bs_c[:header_logo_item]) do
+            %i.fas.fa-user
+            = @player.name
+        #header-player-nav{ class: bs_c[:header_nav_items] }
           = link_to(edit_user_registration_path,
                     id: "edit-user-registration", class: bs_c[:header_nav_item]) do
             %i.fas.fa-user-cog
@@ -22,7 +21,12 @@
                     method: :delete,
                     id: "sign-out", class: bs_c[:header_nav_item]) do
             %i.fas.fa-sign-out-alt
-        - else
+      - else
+        #logo-rga{ class: bs_c[:header_logo_items] }
+          = link_to(root_path, class: bs_c[:header_logo_item]) do
+            %i.fas.fa-dragon
+            RGA
+        #nav-items{ class: bs_c[:header_nav_items] }
           = link_to(new_user_registration_path,
                     id: "sign-up", class: bs_c[:header_nav_item]) do
             %i.fas.fa-user-plus

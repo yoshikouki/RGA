@@ -12,7 +12,7 @@ class JobLevel < ApplicationRecord
   # インスタンス化するたびにパラメータを設定
   def set_params
     @job_name = job.job_name
-    @next_job_level_exp = calculate_exp_to_level_up(job_level + 1)
+    @next_job_level_exp = reached_in_level_limit? ? 0 : calculate_exp_to_level_up(job_level + 1) - job_exp
   end
 
   # 獲得した経験値をジョブEXPに反映

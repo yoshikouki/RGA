@@ -1,16 +1,18 @@
 - bs_c = @bootstrap_class_list
-- bs_c.merge!( status_row: 'col-6 mb-4',
-               status_col: '',
-               player_name: 'h5 font-weight-bold mr-2',
-               job_badge:  'badge badge-light badge-pill h-100' )
+- bs_c.merge!( status_row:   'col-6 mb-3',
+               status_col:   '',
+               player_name:  'h5 font-weight-bold mr-2',
+               job_badge:    'badge badge-light badge-pill h-100',
+               status_badge: 'badge badge-secondary badge-sm col-4 mr-1' )
 
 #player-info
   #player_name.mb-4
     %span{ class: bs_c[:player_name] }
       = @player.name
+    %span{ class: bs_c[:job_badge] }
+      = @current_job.job_name
 
-  #status.row
-
+  #status.row.border.border-secondary.rounded-lg.py-4.mb-5
     #status-lv{ class: bs_c[:status_row] }
       .status-col{ class: bs_c[:status_col] }
         %span{ class: bs_c[:status_badge] } Lv
@@ -24,16 +26,13 @@
 
     #status-job{ class: bs_c[:status_row] }
       .status-col{ class: bs_c[:status_col] }
-        %span{ class: bs_c[:status_badge] } Job
-        = @current_job.job_name
-      .status-col{ class: bs_c[:status_col] }
         %span{ class: bs_c[:status_badge] } Job Lv
         = @current_job.job_level
       .status-col{ class: bs_c[:status_col] }
         %span{ class: bs_c[:status_badge] } Job Exp
         = @current_job.job_exp
       .status-col{ class: bs_c[:status_col] }
-        %span{ class: bs_c[:status_badge] } Next Job Lv
+        %span{ class: bs_c[:status_badge] } Next Lv
         = @current_job.next_job_level_exp
 
     #status-params{ class: bs_c[:status_row] }
@@ -56,4 +55,5 @@
 
 
 = link_to battles_path, class: bs_c[:link_btn_block] do
-  バトルへ
+  %i.fas.fa-dragon
+  バトル

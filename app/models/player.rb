@@ -37,7 +37,7 @@ class Player < ApplicationRecord
   # インスタンス化するたびにパラメータを設定
   def set_params
     self.current_hp = hp
-    self.next_lv_exp = calculate_exp_to_lv_up(lv + 1)
+    self.next_lv_exp = calculate_exp_to_lv_up(lv + 1) - exp
   end
 
   # 獲得したEXPとコインを保存
