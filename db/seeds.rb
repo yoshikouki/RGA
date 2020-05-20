@@ -1,9 +1,14 @@
-# Jobs マスタ
 require 'csv'
-jobs = []
+# Jobs マスタ
 CSV.foreach('db/data/jobs_master_data.csv', headers: true) do |row|
   params = row.to_h.transform_keys(&:to_s)
-  jobs << Job.create(params)
+  Job.create(params)
+end
+
+# JobChangeConditions マスタ
+CSV.foreach('db/data/job_change_conditions_master_data.csv', headers: true) do |row|
+  params = row.to_h.transform_keys(&:to_s)
+  JobChangeCondition.create(params)
 end
 
 # ユーザー
