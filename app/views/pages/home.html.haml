@@ -21,22 +21,16 @@
         %span{ class: bs_c[:status_badge] } Lv
         = @player.lv
       .status-col{ class: bs_c[:status_col] }
+        %span{ class: bs_c[:status_badge] } Job Lv
+        = @current_job.job_level
+
+    #status-exp{ class: bs_c[:status_row] }
+      .status-col{ class: bs_c[:status_col] }
         %span{ class: bs_c[:status_badge] } Exp
         = @player.exp
       .status-col{ class: bs_c[:status_col] }
         %span{ class: bs_c[:status_badge] } Next Lv
         = @player.next_lv_exp
-
-    #status-job{ class: bs_c[:status_row] }
-      .status-col{ class: bs_c[:status_col] }
-        %span{ class: bs_c[:status_badge] } Job Lv
-        = @current_job.job_level
-      .status-col{ class: bs_c[:status_col] }
-        %span{ class: bs_c[:status_badge] } Job Exp
-        = @current_job.job_exp
-      .status-col{ class: bs_c[:status_col] }
-        %span{ class: bs_c[:status_badge] } Next Lv
-        = @current_job.next_job_level_exp
 
     #status-params{ class: bs_c[:status_row] }
       .status-col{ class: bs_c[:status_col] }
