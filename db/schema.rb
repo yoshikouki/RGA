@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_20_063539) do
+ActiveRecord::Schema.define(version: 2020_05_20_071806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "job_change_conditions", force: :cascade do |t|
+    t.bigint "job_id"
+    t.bigint "condition_job_id"
+    t.bigint "condition_job_level"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "job_levels", force: :cascade do |t|
     t.bigint "player_id"
