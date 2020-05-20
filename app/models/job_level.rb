@@ -9,6 +9,8 @@ class JobLevel < ApplicationRecord
                 :job_name,
                 :next_job_level_exp
 
+  validates :player_id, uniqueness: { scope: :job_id }
+
   def initialize(params)
     init_params = { job_id:    1,
                     job_level: 1,
