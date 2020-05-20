@@ -94,7 +94,8 @@ class Player < ApplicationRecord
   end
 
   # ジョブチェンジ可能なリストを返す
-  def job_list
+  def changeable_job_list
+    # JobChangeCondition.new.changeable_job_list(job_levels)
     Job.all
   end
 
