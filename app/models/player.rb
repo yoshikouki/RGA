@@ -50,11 +50,11 @@ class Player < ApplicationRecord
   end
 
   # レベルアップしているかを確認し、していればステータスなどを加算する
-  # 戻り値：レベルアップの数値（int）
   def decision_lv_up
     return false unless lv_upped?
 
     calculate_lv_diff.grow_status
+    current_job.decision_level_up(@lv_up_diff)
   end
 
   # Playerレベルが上っているかどうかを判断する

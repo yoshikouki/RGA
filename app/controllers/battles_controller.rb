@@ -62,10 +62,6 @@ class BattlesController < ApplicationController
     @player
       .earn_reward(reward)
       .decision_lv_up
-    @player
-      .current_job
-      .earn_reward(reward)
-      .decision_level_up
     g_reward_info(reward)
   end
 

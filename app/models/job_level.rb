@@ -20,51 +20,30 @@ class JobLevel < ApplicationRecord
   # インスタンス化するたびにパラメータを設定
   def set_params
     @job_name = job.job_name
-    @next_job_level_exp = reached_in_level_limit? ? 0 : calculate_exp_to_level_up(job_level + 1) - job_exp
   end
 
-  # 獲得した経験値をジョブEXPに反映
-  def earn_reward(reward)
-    return self if reached_in_level_limit?
+  # ジョブレベルアップの処理
+  def decision_level_up(level_up_diff)
+    return if reached_in_level_limit?
 
-    earned_exp = job_exp + reward[:get_exp]
-    limit_exp = calculate_exp_to_level_up(job.level_limit)
-    update(job_exp: earned_exp >= limit_exp ? limit_exp : earned_exp)
+    calculate_job_level_up_diff(level_up_diff).grow_job_status
     self
   end
 
   # ジョブがレベル上限に達していればtrue
   def reached_in_level_limit?
-    job_exp >= calculate_exp_to_level_up(job.level_limit)
+    job_level >= job.level_limit
   end
 
-  # レベルアップするための経験値を計算
-  def calculate_exp_to_level_up(level)
-    level**NEXT_LV_EXP_DIFF
-  end
-
-  # ジョブレベルが上がっているか判定する
-  def level_upped?
-    job_exp >= calculate_exp_to_level_up(job_level + 1)
-  end
-
-  # ジョブレベルアップの処理
-  def decision_level_up
-    return false unless level_upped? || !reached_in_level_limit?
-
-    next_lv_diff = 1
-    loop do
-      next_lv_diff += 1
-      break if job_exp < calculate_exp_to_level_up(job_level + next_lv_diff)
-    end
-    @job_level_up_diff = (next_lv_diff - 1)
-    grow_job_status
+  # ジョブレベルが上限を超えてレベルアップしないか確認した上で、クラス変数定義
+  def calculate_job_level_up_diff(level_up_diff)
+    limit_diff = job.level_limit - (job_level + level_up_diff)
+    @job_level_up_diff = limit_diff.negative? ? job.level_limit - job_level : level_up_diff
     self
   end
 
+  # ジョブレベルを上昇させる
   def grow_job_status
     update(job_level: self.job_level += @job_level_up_diff)
   end
-
-  NEXT_LV_EXP_DIFF = 2
 end
