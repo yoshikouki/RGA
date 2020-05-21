@@ -12,10 +12,10 @@ class JobChangeCondition < ApplicationRecord
 
   # ジョブレベルがターゲット職の条件を満たしていたら true
   # 引数 job_levels: { current_job_id: :int, after_job_id: :int }
-  def valid_job_change?(target_job_id, **job_levels)
-    conditions = select(job_id: target_job_id)
+  def valid_job_change?(target_job_id, job_levels)
+    conditions = JobChangeCondition.where(job_id: target_job_id)
     result = conditions.map do |condition|
-      break false unless (job = job_levels.find(& condition.condition_job_id == :job_id))
+      break [false] unless (job = job_levels.find_by(job_id: condition.condition_job_id))
 
       job.job_level >= condition.condition_job_level
     end
