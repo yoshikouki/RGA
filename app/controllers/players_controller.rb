@@ -1,5 +1,7 @@
 # プレイヤー情報の変更リクエストなどを処理する
 class PlayersController < ApplicationController
+  before_action :sign_in_required
+
   def job_change
     target_job = Job.find(job_change_params[:after_job_id].to_i)
     if @player.valid_job_change?(target_job)
