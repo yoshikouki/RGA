@@ -2,12 +2,16 @@
 class JobChangeCondition < ApplicationRecord
   belongs_to :job
 
-  def changeable_job_list(**job_list)
-    # job_list.each do |l|
-    #   l.job_id
-    #   l.job_level
-    # end
-    # [{ job_name: '', id: 1 },]
+  def changeable_job_list(job_levels)
+    # 未転職ジョブ（JobLevelsにない）をリスト化する
+    inexperienced_jobs = Job.all.excluding(job_levels.map(&:job))
+    # 未転職ジョブの条件を引っ張り出す
+    # 未転職ジョブ毎に条件を満たしているか判定する
+    # 転職条件を満たしているジョブリストを作る
+    # ジョブリストを返す
+    inexperienced_jobs.map do |target_job|
+      target_job if job_changeable?(target_job, job_levels)
+    end.compact
   end
 
   # ジョブレベルがターゲット職の条件を満たしていたら true
