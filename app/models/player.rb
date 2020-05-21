@@ -101,7 +101,7 @@ class Player < ApplicationRecord
   # ジョブチェンジが正当なものか判断する
   # 引数 job_change_list: { current_job_id: :int, after_job_id: :int }
   def valid_job_change?(target_job)
-    JobChangeCondition.new.job_changeable?(target_job, job_levels)
+    target_job.changeable_job?(job_levels)
   end
 
   # 現在のジョブを変更する
