@@ -10,9 +10,10 @@ class PlayersController < ApplicationController
       # ＋もしJob Levels がなかった場合は作成する
       @player.change_job(target_job)
       flash[:success] = 'ジョブチェンジしました'
-    else
-      flash[:danger] = '不正なジョブチェンジです'
     end
+    redirect_to root_path
+  rescue StandardError
+    flash[:danger] = '不正なジョブチェンジです'
     redirect_to root_path
   end
 
