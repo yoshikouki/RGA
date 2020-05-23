@@ -3,9 +3,9 @@ class BattlesController < ApplicationController
   EXP_CONSTANT = 2
   COIN_CONSTANT = 3
   include MessageGenerator
+  before_action :sign_in_required
 
   def index
-    @player = current_user.player
     enemy_params = { name: 'マダオ',
                      hp:   @player.hp,
                      str:  @player.str,
@@ -59,8 +59,10 @@ class BattlesController < ApplicationController
 
   def apply_result
     reward = calculate_battle_reward
-    lv_up_diff = @player.earn_reward(reward).decision_lv_up
-    g_reward_info(reward, lv_up_diff)
+    @player
+      .earn_reward(reward)
+      .decision_lv_up
+    g_reward_info(reward)
   end
 
   # 戦闘報酬の計算

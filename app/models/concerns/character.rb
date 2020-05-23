@@ -8,10 +8,6 @@ module Character
 
   CRITICAL_ATTACK_CONSTANT = 1.5
 
-  def set_current_hp
-    self.current_hp = hp
-  end
-
   def attack(target)
     critical_hit = critical_hit?
     attack_type = :normal_attack

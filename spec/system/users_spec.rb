@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Users', type: :system do
   before do
     driven_by(:rack_test)
+    FactoryBot.create(:job)
   end
 
   describe '#new, #create' do

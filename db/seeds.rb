@@ -1,7 +1,19 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+require 'csv'
+# Jobs マスタ
+CSV.foreach('db/data/jobs_master_data.csv', headers: true) do |row|
+  params = row.to_h.transform_keys(&:to_s)
+  Job.create(params)
+end
+
+# JobChangeConditions マスタ
+CSV.foreach('db/data/job_change_conditions_master_data.csv', headers: true) do |row|
+  params = row.to_h.transform_keys(&:to_s)
+  JobChangeCondition.create(params)
+end
+
+# ユーザー
+User.create!(username:              'Game Master',
+             email:                 'yoshikouki@gmail.com',
+             password:              'password',
+             password_confirmation: 'password',
+             confirmed_at:          Time.zone.now)

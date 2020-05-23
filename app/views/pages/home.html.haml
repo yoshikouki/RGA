@@ -1,13 +1,67 @@
-- bs_c = { battle_button: "btn btn-light btn-block" }
+- bs_c = @bootstrap_class_list
+- bs_c.merge!( status_row:   'col-6 mb-3',
+               status_col:   '',
+               player_name:  'h5 font-weight-bold mr-2',
+               job_badge:    'badge badge-light badge-pill h-100',
+               job_change_form: 'row',
+               job_change_form_select: 'form-control col mr-auto',
+               job_change_form_submit: 'btn btn-light col-auto ml-2')
 
-%h1
+#player-info
+  #player_name.mb-4
+    %span{ class: bs_c[:player_name] }
+      = @player.name
+    %span{ class: bs_c[:job_badge] }
+      = @current_job.job_name
+
+  #status.row.border.border-secondary.rounded-lg.py-4.mb-5
+    #status-lv{ class: bs_c[:status_row] }
+      .status-col{ class: bs_c[:status_col] }
+        %span{ class: bs_c[:status_badge] } Lv
+        = @player.lv
+      .status-col{ class: bs_c[:status_col] }
+        %span{ class: bs_c[:status_badge] } Job Lv
+        = @current_job.job_level
+
+    #status-exp{ class: bs_c[:status_row] }
+      .status-col{ class: bs_c[:status_col] }
+        %span{ class: bs_c[:status_badge] } Exp
+        = @player.exp
+      .status-col{ class: bs_c[:status_col] }
+        %span{ class: bs_c[:status_badge] } Next Lv
+        = @player.next_lv_exp
+
+    #status-params{ class: bs_c[:status_row] }
+      .status-col{ class: bs_c[:status_col] }
+        %span{ class: bs_c[:status_badge] } HP
+        = @player.hp
+      .status-col{ class: bs_c[:status_col] }
+        %span{ class: bs_c[:status_badge] } Str
+        = @player.str
+      .status-col{ class: bs_c[:status_col] }
+        %span{ class: bs_c[:status_badge] } Vit
+        = @player.vit
+
+    #status-etc{ class: bs_c[:status_row] }
+      .status-col{ class: bs_c[:status_col] }
+        %span{ class: bs_c[:status_badge] } Coin
+        = @player.coin
+
+#job-change.mb-5.container
+  = form_with url: job_change_path,
+              scope: :job_change_list,
+              class: bs_c[:job_change_form] do |f|
+    = f.hidden_field :current_job_id,
+                     value: @player.current_job_id
+    = f.select :target_job_id, :post, {}, class: bs_c[:job_change_form_select] do
+      - @player.changeable_job_list.each do |job|
+        = content_tag :option, job.job_name, value: job.id
+    = f.submit 'ジョブチェンジ',
+               class: bs_c[:job_change_form_submit]
+= link_to 'job_change',
+          class: bs_c[:link_btn_block_light] do
+  ジョブ一覧
+
+= link_to battles_path, class: bs_c[:link_btn_block] do
   %i.fas.fa-dragon
-  RGA
-
-%h2 RGAとは...
-%p SUPERな放置ゲームです
-%p もしくはタップゲームかも知れません
-%p ご期待ください！
-
-= link_to battles_path, class: bs_c[:battle_button] do
-  バトルへ
+  バトル

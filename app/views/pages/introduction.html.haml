@@ -1,0 +1,24 @@
+- bs_c = @bootstrap_class_list
+
+%h1{ class: bs_c[:page_title] }
+  %i.fas.fa-dragon
+  RGA
+
+%section.my-5
+  %h2.h5
+    RGAとは...
+  %section.card.text-dark
+    .card-body
+      .card-title
+        SUPERな放置ゲームです
+      .card-text
+        %p もしくはタップゲームかも知れません
+        %p ご期待ください！
+
+= link_to new_user_registration_path, class: bs_c[:link_list_btn_block] do
+  %i.fas.fa-user-plus
+  アカウント作成
+
+= link_to new_user_session_path, class: bs_c[:link_list_btn_block] do
+  %i.fas.fa-sign-in-alt
+  ログイン

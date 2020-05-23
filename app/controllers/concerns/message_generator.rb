@@ -63,11 +63,11 @@ module MessageGenerator
     end
   end
 
-  def g_reward_info(reward, lv_up_diff)
+  def g_reward_info(reward)
     @battle_logs[:battle_result]
       .merge!({ get_exp:         reward[:get_exp],
                 get_coin:        reward[:get_coin],
                 end_player_info: @player.attributes.symbolize_keys,
-                lv_upped:        lv_up_diff })
+                lv_upped:        @player.lv_up_diff })
   end
 end
