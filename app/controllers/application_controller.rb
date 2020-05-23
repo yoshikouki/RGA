@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
     link_btn_secondary:   'btn btn-secondary mb-3',
     link_btn_block:       'btn btn-primary btn-block mb-5',
     link_btn_block_light: 'btn btn-light btn-block mb-5',
-    status_badge:         'badge badge-secondary badge-sm',
+    status_badge:         'badge badge-secondary badge-sm col-4 mr-2',
     job_badge:            'badge badge-light badge-pill',
     new_badge:            'badge badge-primary badge-sm',
     form:                 'my-5',

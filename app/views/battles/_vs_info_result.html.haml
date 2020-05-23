@@ -1,0 +1,41 @@
+-# 開始時点のプレイヤー情報
+- player = @battle_logs[:battle_info][:begin_player]
+- enemy = @battle_logs[:battle_info][:begin_enemy]
+- battle_result = @battle_logs[:battle_result]
+
+- bs_c = @bootstrap_class_list
+- bs_c.merge!({ v: '',
+    situation_table:  "container my-5",
+    character_list:   "col-5 rounded-lg bg-light text-dark py-2",
+    character_name:   "font-weight-bold my-2",
+    character_status: "my-1",
+    status_data:      "d-inline-block text-right",
+    job_badge:        'badge badge-dark badge-pill',
+    vs_badge:         "col-2 font-weight-bold text-center w-100 h-100 p-2" })
+
+-# 戦闘開始状況
+#situation_table{ class: bs_c[:situation_table] }
+  .row
+    -# プレイヤー情報
+    .character_list{ class: bs_c[:character_list]}
+      .character_info{ class: bs_c[:character_name]}
+        = player[:name]
+      .character_info{ class: bs_c[:character_status]}
+        %span{ class: bs_c[:status_badge] }
+          HP
+        %span{ class: bs_c[:status_data] }
+          = "#{battle_result[:last_player_hp]} /#{player[:hp]}"
+
+    -# 「VS」バッジ
+    .vs_badge{ class: bs_c[:vs_badge] }
+      VS
+
+    -# 敵キャラ情報
+    .character_list{ class: bs_c[:character_list]}
+      .character_info{ class: bs_c[:character_name]}
+        = enemy[:name]
+      .character_info{ class: bs_c[:character_status]}
+        %span{ class: bs_c[:status_badge] }
+          HP
+        %span{ class: bs_c[:status_data] }
+          = "#{battle_result[:last_enemy_hp]} /#{enemy[:hp]}"

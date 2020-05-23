@@ -1,10 +1,5 @@
 - bs_c = @bootstrap_class_list
 - bs_c.merge!({ v: '',
-    situation_table: "container my-5",
-    character_list: "rounded-lg bg-secondary text-white py-2",
-    character_name: "col-5 pr-0 font-weight-bold",
-    character_status: "col px-0",
-    status_badge: "badge badge-dark badge-sm",
     vs_badge: "font-weight-bold text-center w-100 p-2",
     action_ul: "list-group list-group-flush",
     act_li: "list-group-item bg-dark border-white-50",
@@ -29,47 +24,7 @@
 - battle_result = @battle_logs[:battle_result]
 - end_player_info = @battle_logs[:battle_result][:end_player_info]
 
--# 戦闘開始状況
-#situation_table{ class: bs_c[:situation_table] }
-  .div
-    .row{ class: bs_c[:character_list]}
-      %span{ class: bs_c[:character_name]}
-        = player[:name]
-      %span{ class: bs_c[:character_status]}
-        %span{ class: bs_c[:status_badge] }
-          HP
-        = player[:hp]
-      %span{ class: bs_c[:character_status]}
-        %span{ class: bs_c[:status_badge] }
-          STR
-        = player[:str]
-      %span{ class: bs_c[:character_status]}
-        %span{ class: bs_c[:status_badge] }
-          VIT
-        = player[:vit]
-      %span{ class: bs_c[:character_status]}
-        %span{ class: bs_c[:status_badge] }
-          LV
-        = player[:lv]
-    .row
-      %div{ colspan: 5, class: bs_c[:vs_badge] }
-        VS
-    .row{ class: bs_c[:character_list]}
-      %span{ class: bs_c[:character_name]}
-        = enemy[:name]
-      %span{ class: bs_c[:character_status]}
-        %span{ class: bs_c[:status_badge] }
-          HP
-        = enemy[:hp]
-      %span{ class: bs_c[:character_status]}
-        %span{ class: bs_c[:status_badge] }
-          STR
-        = enemy[:str]
-      %span{ class: bs_c[:character_status]}
-        %span{ class: bs_c[:status_badge] }
-          VIT
-        = enemy[:vit]
-
+= render 'battles/vs_info'
 
 -# 戦闘経過ログ
 %ul{ class: bs_c[:action_ul] }
@@ -108,39 +63,8 @@
   %li{ class: bs_c[:act_li] }
     = "#{battle_result[:loser_name]}は倒れた"
 
-
--# 戦闘結果
-#result_table{ class: bs_c[:situation_table] }
-  .div
-    .row{ class: bs_c[:character_list]}
-      %span{ class: bs_c[:character_name]}
-        = player[:name]
-      %span{ class: bs_c[:character_status]}
-        %span{ class: bs_c[:status_badge] }
-          HP
-        = "#{battle_result[:last_player_hp]}"
-        %span{ class: bs_c[:max_hp] }
-          = "/#{player[:hp]}"
-      %span{ class: bs_c[:character_status]}
-        %span{ class: bs_c[:status_badge] }
-          LV
-        = player[:lv]
-    .row
-      %div{ colspan: 5, class: bs_c[:vs_badge] }
-        VS
-    .row{ class: bs_c[:character_list]}
-      %span{ class: bs_c[:character_name]}
-        = enemy[:name]
-      %span{ class: bs_c[:character_status]}
-        %span{ class: bs_c[:status_badge] }
-          HP
-        = "#{battle_result[:last_enemy_hp]}"
-        %span{ class: bs_c[:max_hp] }
-          = "/#{enemy[:hp]}"
-      %span{ class: bs_c[:character_status]}
-        %span{ class: bs_c[:status_badge] }
-          LV
-        = enemy[:lv]
+-# 戦闘結果キャラクター情報
+= render 'battles/vs_info_result'
 
 #result-message{ class: bs_c[:result_message] }
   - if battle_result[:player_won]
