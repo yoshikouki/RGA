@@ -9,6 +9,7 @@ Rails.application.routes.draw do
                omniauth_callbacks: 'users/omniauth_callbacks'
              }
 
+  get '/job_change', to: 'players#jobs.html.haml', as: 'jobs_index'
   post 'players/job_change', to: 'players#job_change', as: 'job_change'
   get 'battles/battle'
   get 'battles', to: 'battles#index'

@@ -2,6 +2,8 @@
 class PlayersController < ApplicationController
   before_action :sign_in_required
 
+  def jobs; end
+
   def job_change
     target_job = Job.find(job_change_params[:after_job_id].to_i)
     if @player.valid_job_change?(target_job)

@@ -6,7 +6,7 @@
                status_badge: 'badge badge-secondary badge-sm col-4 mr-2',
                job_change_form: 'row',
                job_change_form_select: 'form-control col mr-auto',
-               job_change_form_submit: 'btn btn-light font-weight-bold col-auto ml-2')
+               job_change_form_submit: 'btn btn-light col-auto ml-2')
 
 #player-info
   #player_name.mb-4
@@ -59,7 +59,9 @@
         = content_tag :option, job.job_name, value: job.id
     = f.submit 'ジョブチェンジ',
                class: bs_c[:job_change_form_submit]
-
+= link_to 'job_change',
+          class: bs_c[:link_btn_block_light] do
+  ジョブ一覧
 
 = link_to battles_path, class: bs_c[:link_btn_block] do
   %i.fas.fa-dragon
