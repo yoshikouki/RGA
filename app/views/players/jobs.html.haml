@@ -1,1 +1,56 @@
+- bs_c = @bootstrap_class_list
+- bs_c.merge!( job_change_form:   '',
+               job_lists:         'btn-group-vertical btn-group-toggle w-100',
+               form_radio_label:  'btn btn-dark text-left rounded-0',
+               form_radio_button: '' )
 
+
+%h1.h5
+  ジョブ一覧
+
+.row.mb-5
+  .col-auto
+    %span{ class: bs_c[:status_badge] }
+      現在
+    = @player.current_job.job_name
+  .col
+    %span{ class: bs_c[:status_badge] }
+      Lv
+    = @player.current_job.job_level
+
+#job-change-form{ class: bs_c[:form] }
+  = form_with url: job_change_path,
+              scope: :job_change_list do |f|
+    = f.hidden_field :current_job_id,
+                     value: @player.current_job_id
+    #job-lists{ class: bs_c[:job_lists], data: { toggle: 'buttons' } }
+      - @player.job_levels.each do |job_level|
+        = f.label "target_job_id_#{job_level.job_id}".to_sym,
+                  class: bs_c[:form_radio_label] do
+          .row
+            .col
+              = job_level.job.job_name
+            .col
+              %span{ class: bs_c[:status_badge] }
+                Lv
+              = job_level.job_level
+          = f.radio_button :target_job_id,
+                           job_level.job_id
+
+      - @player.inexperienced_changeable_jobs.each do |job|
+        = f.label "target_job_id_#{job.id}".to_sym,
+                  class: bs_c[:form_radio_label] do
+          .row
+            .col
+              = job.job_name
+            .col
+              %span{ class: bs_c[:new_badge] }
+                New
+          = f.radio_button :target_job_id,
+                           job.id
+    = f.submit 'ジョブチェンジ',
+               class: bs_c[:form_submit]
+
+  = link_to root_path,
+            class: bs_c[:link_btn_block_light] do
+    キャンセル
