@@ -95,7 +95,11 @@ class Player < ApplicationRecord
 
   # ジョブチェンジ可能なリストを返す
   def changeable_job_list
-    job_levels.map(&:job) + JobChangeCondition.new.changeable_job_list(job_levels)
+    experienced_jobs = job_levels.map(&:job)
+    inexperienced_jobs = Job.all.excluding(experienced_jobs)
+    experienced_jobs + inexperienced_jobs.map do |target_job|
+      target_job if target_job.changeable_job?(job_levels)
+    end.compact
   end
 
   # ジョブチェンジが正当なものか判断する
