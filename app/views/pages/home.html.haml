@@ -54,7 +54,7 @@
               class: bs_c[:job_change_form] do |f|
     = f.hidden_field :current_job_id,
                      value: @player.current_job_id
-    = f.select :after_job_id, :post, {}, class: bs_c[:job_change_form_select] do
+    = f.select :target_job_id, :post, {}, class: bs_c[:job_change_form_select] do
       - @player.changeable_job_list.each do |job|
         = content_tag :option, job.job_name, value: job.id
     = f.submit 'ジョブチェンジ',

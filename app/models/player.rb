@@ -107,16 +107,15 @@ class Player < ApplicationRecord
   end
 
   # ジョブチェンジが正当なものか判断する
-  # 引数 job_change_list: { current_job_id: :int, after_job_id: :int }
+  # 引数 job_change_list: { current_job_id: :int, target_job_id: :int }
   def valid_job_change?(target_job)
     target_job.changeable_job?(job_levels)
   end
 
   # 現在のジョブを変更する
-  def change_job(job_list)
-    job_id = job_list[:after_job_id]
-    job_levels.find_or_create_by(job_id: job_id)
-    update(current_job_id: job_id)
+  def change_job(target_job)
+    job_levels.find_or_create_by(job_id: target_job.id)
+    update(current_job_id: target_job.id)
   end
 
   private
