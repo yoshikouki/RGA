@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_20_071806) do
+ActiveRecord::Schema.define(version: 2020_05_24_144452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "acquired_skills", force: :cascade do |t|
+    t.bigint "player_id"
+    t.integer "skill_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "job_change_conditions", force: :cascade do |t|
     t.bigint "job_id"
@@ -53,6 +60,21 @@ ActiveRecord::Schema.define(version: 2020_05_20_071806) do
     t.integer "current_job_id"
     t.index ["name"], name: "index_players_on_name", unique: true
     t.index ["user_id"], name: "index_players_on_user_id", unique: true
+  end
+
+  create_table "skill_acquisition_conditions", force: :cascade do |t|
+    t.bigint "skill_id"
+    t.bigint "condition_job_id"
+    t.bigint "condition_job_level"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "skills", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|

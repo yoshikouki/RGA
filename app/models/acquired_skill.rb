@@ -1,0 +1,2 @@
+class AcquiredSkill < ApplicationRecord
+end

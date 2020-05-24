@@ -1,0 +1,2 @@
+class SkillAcquisitionCondition < ApplicationRecord
+end
