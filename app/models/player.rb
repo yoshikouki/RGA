@@ -4,6 +4,7 @@ class Player < ApplicationRecord
 
   belongs_to :user
   has_many :job_levels, dependent: :destroy
+  has_many :acquired_skills, dependent: :destroy
 
   # new, create, find(インスタンス化) 後に実行
   after_initialize :set_params
