@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   get '/job_change', to: 'players#jobs.html.haml', as: 'jobs'
   post 'players/job_change', to: 'players#job_change', as: 'job_change'
 
+  get '/skills', to: 'players#skills.html.haml', as: 'skills'
+
   get 'battles/battle'
   get 'battles', to: 'battles#index'
   get '/introduction', to: 'pages#introduction'

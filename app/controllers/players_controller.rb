@@ -17,6 +17,8 @@ class PlayersController < ApplicationController
     redirect_to root_path
   end
 
+  def skills; end
+
   private
 
   def job_change_params
