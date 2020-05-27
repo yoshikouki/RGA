@@ -1,8 +1,8 @@
 # Jobのマスターデータ
 class Job < ApplicationRecord
-  # nullifi:JobModelの削除次、job_levels.job_idはnullになる
   has_many :job_levels, dependent: :nullify
   has_many :job_change_conditions, dependent: :nullify
+  has_many :skill_acquisition_conditions, dependent: :destroy
 
   # プレイヤーがジョブチェンジ可能かどうか判定する
   # 引数： @player.job_levels

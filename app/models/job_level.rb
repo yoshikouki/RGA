@@ -27,6 +27,7 @@ class JobLevel < ApplicationRecord
   def decision_level_up(level_up_diff)
     return if reached_in_level_limit?
 
+    # ジョブのレベルアップ処理
     calculate_job_level_up_diff(level_up_diff).grow_job_status
     self
   end
