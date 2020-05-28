@@ -58,10 +58,10 @@ module LevelUp
   # レベルに応じたスキルを獲得する
   def acquire_skill
     unacquired_skills = current_job.job
-                            .skill_acquisition_conditions
-                            .where("condition_job_level <= #{current_job.job_level}")
-                            .map(&:skill)
-                            .excluding(acquired_skills.map(&:skill))
+                                   .skill_acquisition_conditions
+                                   .where("condition_job_level <= #{current_job.job_level}")
+                                   .map(&:skill)
+                                   .excluding(acquired_skills.map(&:skill))
     unacquired_skills&.map do |skill|
       acquired_skills.create(skill_id: skill.id)
     end
